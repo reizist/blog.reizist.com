@@ -19,7 +19,6 @@ jobs:
               git submodule init
               git submodule update
               git checkout -b gh-pages
-              git remote add origin "git@github.com:reizist/reizist.github.io.git"
       - run:
           name: build and push
           command: |
