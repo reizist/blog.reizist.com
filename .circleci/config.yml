@@ -27,4 +27,4 @@ jobs:
               cd public
               git add .
               git commit -m "[ci skip] publish"
-              git push origin gh-pages
+              git push -f origin gh-pages
