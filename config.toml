@@ -1,0 +1,11 @@
+baseURL = "http://blog.reizist.com/"
+languageCode = "en-us"
+title = "reizist's memo"
+theme = "purehugo"
+Paginate = 5
+
+[params]
+  twitterName = "reizist"
+  githubName = "reizist"
+  stackOverflowId = "8758262"
+  description = "reizist's daily memo"
