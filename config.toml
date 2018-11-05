@@ -1,4 +1,4 @@
-baseURL = "http://blog.reizist.com/"
+baseURL = "http://reizist.github.io/"
 languageCode = "en-us"
 title = "reizist's memo"
 theme = "purehugo"
