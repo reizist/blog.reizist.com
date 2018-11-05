@@ -18,11 +18,8 @@ jobs:
           command: |
               git submodule init
               git submodule update
-              git init public
-              cd public
               git checkout -b gh-pages
               git remote add origin "git@github.com:reizist/reizist.github.io.git"
-              cd ..
       - run:
           name: build and push
           command: |
@@ -31,4 +28,4 @@ jobs:
               cd public
               git add .
               git commit -m "[ci skip] publish"
-              git push -f origin gh-pages
+              git push origin gh-pages
