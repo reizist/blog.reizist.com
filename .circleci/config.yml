@@ -30,3 +30,12 @@ jobs:
               git add --all
               git commit -m "[ci skip] publish"
               git push -f origin master
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - develop
