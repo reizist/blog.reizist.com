@@ -23,15 +23,5 @@
 - run: name: Post coverage command: bin/post-coverage-to-slack  ### # original: https://gist.githubusercontent.com/u-minor/8cb27fa9c04163142ebd/raw/circleci-coverage-slack # Post coverage rate to Slack # # Usage: bash circleci-coverage-slack.sh [cobertura|jacoco] # # Required environment variables: # # - CIRCLE_TOKEN: project-specific readonly API token (need to access build artifacts for others) # - SLACK_ENDPOINT: Slack endpoint url # - COVERAGE_FILE: coverage xml filename (default: coverage.</description>
     </item>
     
-    <item>
-      <title>Initial_post</title>
-      <link>https://blog.reizist.com/post/initial_post/</link>
-      <pubDate>Tue, 06 Nov 2018 00:48:50 +0900</pubDate>
-      
-      <guid>https://blog.reizist.com/post/initial_post/</guid>
-      <description> test
-hoge hogehoge </description>
-    </item>
-    
   </channel>
 </rss>
