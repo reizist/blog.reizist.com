@@ -4,6 +4,7 @@ title = "reizist's memo"
 theme = "purehugo"
 Paginate = 5
 disqusShortname = "reizist"
+google_analytics = "UA-128918318-1"
 
 [params]
   twitter = "reizist"
