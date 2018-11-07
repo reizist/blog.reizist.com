@@ -3,9 +3,13 @@ languageCode = "en-us"
 title = "reizist's memo"
 theme = "purehugo"
 Paginate = 5
+disqusShortname = "reizist"
 
 [params]
   twitterName = "reizist"
   githubName = "reizist"
   stackOverflowId = "8758262"
   description = "reizist's daily memo"
+
+[Params]
+  twitter = "reizist"
