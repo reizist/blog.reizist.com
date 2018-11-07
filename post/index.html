@@ -77,6 +77,174 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">08 Nov 2018, 02:17</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.reizist.com/post/output-coverage-slack/" class="post-title">test coverageをcircleciでoutputするようにした</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>test coverageをcircleciでoutputするようにした。
+所属チームの他のコンポーネントでテスト的に無料枠のCodecovを使っていて、
+自分がメインで見ているrailsプロダクトにもcoverageを意識的に見る文化を取り入れたいと思ったものの
+Codecovを最初から有料枠にするのも気が引けたので無料でできる範囲から。</p>
+
+<p>やったことはほぼ <a href="https://qiita.com/u-minor/items/c18f0f03a9255f9e5231">https://qiita.com/u-minor/items/c18f0f03a9255f9e5231</a> の通りで、</p>
+
+<p>多少アレンジしている。
+circleciでの設定はrun section追加するだけで、プロジェクトの <code>bin/</code> に放り込んだshell scriptを実行しているだけ。</p>
+
+<pre><code class="language-yml:config.yml">- run:
+    name: Post coverage
+    command: bin/post-coverage-to-slack
+</code></pre>
+
+<pre><code class="language-sh">###
+# original: https://gist.githubusercontent.com/u-minor/8cb27fa9c04163142ebd/raw/circleci-coverage-slack
+# Post coverage rate to Slack
+#
+# Usage: bash circleci-coverage-slack.sh [cobertura|jacoco]
+#
+# Required environment variables:
+#
+# - CIRCLE_TOKEN: project-specific readonly API token (need to access build artifacts for others)
+# - SLACK_ENDPOINT: Slack endpoint url
+# - COVERAGE_FILE: coverage xml filename (default: coverage.xml)
+# - MAX_BUILD_HISTORY: max history num to fetch old rate (default: 5)
+#
+
+function calcCoberturaRate() {
+  local rate=$(ruby -r &quot;rexml/document&quot; -e '
+node = REXML::XPath.first(REXML::Document.new(STDIN.read), &quot;coverage&quot;)
+puts &quot;%.2f&quot; % (node.attributes[&quot;line-rate&quot;].to_f * 100)
+')
+  [ &quot;$rate&quot; == &quot;100.00&quot; ] &amp;&amp; rate=100
+  echo $rate
+}
+
+function calcJacocoRate() {
+  local rate=$(ruby -r &quot;rexml/document&quot; -e '
+node = REXML::XPath.first(REXML::Document.new(STDIN.read), &quot;report/counter[@type=\&quot;LINE\&quot;]&quot;)
+missed = node.attributes[&quot;missed&quot;].to_f
+covered = node.attributes[&quot;covered&quot;].to_f
+puts &quot;%.2f&quot; % (covered / (covered + missed) * 100)
+')
+  [ &quot;$rate&quot; == &quot;100.00&quot; ] &amp;&amp; rate=100
+  echo $rate
+}
+
+function calcRate() {
+  case &quot;$coverage_type&quot; in
+    &quot;cobertura&quot; )
+      calcCoberturaRate
+      ;;
+    &quot;jacoco&quot; )
+      calcJacocoRate
+      ;;
+  esac
+}
+
+coverage_type=${1:-cobertura}
+coverage=$(find $CIRCLE_ARTIFACTS -type f | grep ${COVERAGE_FILE:-coverage.xml})
+url_base=&quot;https://circleci.com/api/v1/project/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}&quot;
+
+## calculate rates
+rate_new=$(cat $coverage | calcRate)
+rate_old=0
+for build_num in $(echo $CIRCLE_PREVIOUS_BUILD_NUM; seq $(expr $CIRCLE_BUILD_NUM - 1) -1 1 | head -n ${MAX_BUILD_HISTORY:-5}); do
+  echo &quot;fetching coverage info for build:${build_num} ...&quot;
+  artifacts=&quot;${url_base}/${build_num}/artifacts&quot;
+  [ -n &quot;$CIRCLE_TOKEN&quot; ] &amp;&amp; artifacts=&quot;${artifacts}?circle-token=${CIRCLE_TOKEN}&quot;
+  coverage=$(curl -s -H 'Accept: application/json' $artifacts | jq -r '.[].url' | grep ${COVERAGE_FILE:-coverage.xml})
+  coverage_html=$(curl -s -H 'Accept: application/json' $artifacts | jq -r '.[].url' | grep index.html)
+  [ -n &quot;$coverage&quot; ] &amp;&amp; break
+done
+if [ -n &quot;$coverage&quot; ]; then
+  [ -n &quot;$CIRCLE_TOKEN&quot; ] &amp;&amp; coverage=&quot;${coverage}?circle-token=${CIRCLE_TOKEN}&quot;
+  rate_old=$(curl -s $coverage | calcRate)
+fi
+
+## construct messages
+author=$(git log --format='%an &lt;%ae&gt;' -1 | sed 's/\\/\\\\/g;s/\&quot;/\\&quot;/g')
+log=$(git log --format=%s -1 | sed 's/\\/\\\\/g;s/\&quot;/\\&quot;/g')
+mode=$(ruby -e 'puts (ARGV[0].to_f &lt;=&gt; ARGV[1].to_f) + 1' -- $rate_new $rate_old)
+mes=(&quot;DECREASED&quot; &quot;NOT CHANGED&quot; &quot;INCREASED&quot;)
+color=(&quot;danger&quot; &quot;#a0a0a0&quot; &quot;good&quot;)
+cat &gt; .slack_payload &lt;&lt;_EOT_
+{
+  &quot;attachments&quot;: [
+    {
+      &quot;fallback&quot;: &quot;Coverage ${mes[$mode]} (${rate_new}%)&quot;,
+      &quot;text&quot;: &quot;*${mes[$mode]}* (${rate_old}% -&gt; ${rate_new}%) &lt;${coverage_html}&gt;&quot;,
+      &quot;pretext&quot;: &quot;Coverage report: &lt;https://circleci.com/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BUILD_NUM}|#${CIRCLE_BUILD_NUM}&gt; &lt;https://circleci.com/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}|${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}&gt; (&lt;https://circleci.com/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/tree/${CIRCLE_BRANCH}|${CIRCLE_BRANCH}&gt;)&quot;,
+      &quot;color&quot;: &quot;${color[$mode]}&quot;,
+      &quot;mrkdwn_in&quot;: [&quot;pretext&quot;, &quot;text&quot;, &quot;fields&quot;],
+      &quot;fields&quot;: [
+        {
+          &quot;value&quot;: &quot;Commit: &lt;https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}|${CIRCLE_SHA1}&gt;&quot;,
+          &quot;short&quot;: false
+        },
+        {
+          &quot;value&quot;: &quot;Author: ${author}&quot;,
+          &quot;short&quot;: false
+        },
+        {
+          &quot;value&quot;: &quot;${log}&quot;,
+          &quot;short&quot;: false
+        }
+      ]
+    }
+  ]
+}
+_EOT_
+
+## post to slack
+curl -s --data-urlencode payload@.slack_payload ${SLACK_ENDPOINT}
+rm .slack_payload
+</code></pre>
+
+<p>変更したのは1点で、corbetura formatとは別にhtml formatも出力するようにしておいて、circleciのattachmentにlinkを追加している。
+今まではsimplecov というgemを使ってcircleciでartifactとしてuploadするのみだったので、実際にgithubで開発をしていると、</p>
+
+<ol>
+<li>github pushするとintegrationによりcircleci buildが実行される</li>
+<li>build完了時、PRにその結果が通知される</li>
+<li>通知されたpostからcircleciのリンクをたどり該当のbuild結果からartifactのタブを選択</li>
+<li>該当のhtmlをクリック</li>
+</ol>
+
+<p>という手順が必要で、何が言いたいかというとcoverageの詳細を確認する手順が多かった。</p>
+
+<p>少しでもアクセスしにくいと感じると人間は低きに流れるのでチェックする習慣は無くなってしまうと思う。</p>
+
+<p>のでpercentage of coverageをpostしcoverageを意識させつつ詳細を見やすくした、というのが今回の対応です。</p>
+
+<p><img src="output-coverage-slack/simplecov.png" alt="slack attachment" /></p>
+
+<p>尚このためにsimplecovの設定としてはMultiFormatterを使っていて</p>
+
+<pre><code class="language-rb">require 'simplecov'
+require 'simplecov-cobertura'
+
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new(
+  [
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::CoberturaFormatter
+  ]
+)
+</code></pre>
+
+<p>によってcorbeturaとhtmlを <code>coverage/</code> に出力している。</p>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">06 Nov 2018, 00:48</h1>
                 <section class="post">
                     <header class="post-header">

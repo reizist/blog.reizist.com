@@ -6,10 +6,22 @@
     <description>Recent content on reizist&#39;s memo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 06 Nov 2018 00:48:50 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 08 Nov 2018 02:17:00 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.reizist.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>test coverageをcircleciでoutputするようにした</title>
+      <link>https://blog.reizist.com/post/output-coverage-slack/</link>
+      <pubDate>Thu, 08 Nov 2018 02:17:00 +0900</pubDate>
+      
+      <guid>https://blog.reizist.com/post/output-coverage-slack/</guid>
+      <description>test coverageをcircleciでoutputするようにした。 所属チームの他のコンポーネントでテスト的に無料枠のCodecovを使っていて、 自分がメインで見ているrailsプロダクトにもcoverageを意識的に見る文化を取り入れたいと思ったものの Codecovを最初から有料枠にするのも気が引けたので無料でできる範囲から。
+やったことはほぼ https://qiita.com/u-minor/items/c18f0f03a9255f9e5231 の通りで、
+多少アレンジしている。 circleciでの設定はrun section追加するだけで、プロジェクトの bin/ に放り込んだshell scriptを実行しているだけ。
+- run: name: Post coverage command: bin/post-coverage-to-slack  ### # original: https://gist.githubusercontent.com/u-minor/8cb27fa9c04163142ebd/raw/circleci-coverage-slack # Post coverage rate to Slack # # Usage: bash circleci-coverage-slack.sh [cobertura|jacoco] # # Required environment variables: # # - CIRCLE_TOKEN: project-specific readonly API token (need to access build artifacts for others) # - SLACK_ENDPOINT: Slack endpoint url # - COVERAGE_FILE: coverage xml filename (default: coverage.</description>
+    </item>
     
     <item>
       <title>Initial_post</title>
