@@ -6,10 +6,8 @@ Paginate = 5
 disqusShortname = "reizist"
 
 [params]
+  twitter = "reizist"
   twitterName = "reizist"
   githubName = "reizist"
   stackOverflowId = "8758262"
   description = "reizist's daily memo"
-
-[Params]
-  twitter = "reizist"
