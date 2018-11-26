@@ -6,8 +6,4 @@ orbs:
 workflows:
   "build-push":
     jobs:
-      - build-push/build:
-          filters:
-            branches:
-              only:
-                - $GIT_BUILD_BRANCH
+      - build-push/build
