@@ -1,7 +1,7 @@
 ---
 title: "Hugoのbuild & pushを行うcircleci orb作った"
 date: 2018-11-25T15:55:24-08:00
-draft: false
+draft: true 
 ---
 
 ## モチベーション
