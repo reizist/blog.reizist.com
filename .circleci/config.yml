@@ -1,13 +1,26 @@
 version: 2.1
 
 orbs:
-  build-push: reizist/hugo-build-push@dev:8
+  hugo: circleci/hugo@0.4.1
+
+jobs:
+  deploy:
+    docker:
+      - image: reizist/alpine-hugo
+    steps:
+      - attach_workspace:
+          at: blog-reizist-com
+      - run: ls -lah blog-reizist-com
 
 workflows:
-  "build-push":
+  main:
     jobs:
-      - build-push/build:
+      - hugo/build:
+          html-proofer: false
+          version: '0.55'
+      - deploy:
           filters:
             branches:
-              only:
-                - develop
+              only: develop
+          requires:
+            - hugo/build
