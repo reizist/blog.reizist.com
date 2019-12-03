@@ -21,6 +21,7 @@ jobs:
       - run: cp -r blog-reizist-com/public/* public/
       - run: pwd
       - run: cd public
+      - run: ls -alh
       - run: git status --porcelain
       - run: git add --all
       - run: git commit -m "update"
