@@ -10,7 +10,11 @@ jobs:
     steps:
       - attach_workspace:
           at: blog-reizist-com
-      - run: ls -lah blog-reizist-com
+      - run: cd public
+      - run: git status --porcelain
+      - run: git add .
+      - run: git commit -m "update"
+      - run: git push git@github.com:reizist/blog.reizist.com gh-pages
 
 workflows:
   main:
