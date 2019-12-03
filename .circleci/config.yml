@@ -19,13 +19,14 @@ jobs:
               git config --global user.email $GIT_EMAIL
       - run: git clone -b gh-pages git@github.com:reizist/blog.reizist.com public
       - run: cp -r blog-reizist-com/public/* public/
-      - run: pwd
-      - run: cd public
-      - run: ls -alh
-      - run: git status --porcelain
-      - run: git add --all
-      - run: git commit -m "update"
-      - run: git push git@github.com:reizist/blog.reizist.com gh-pages
+      - run:
+          name: git push
+          command: |
+              cd public
+              git status --porcelain
+              git add --all
+              git commit -m "update"
+              git push git@github.com:reizist/blog.reizist.com gh-pages
 
 workflows:
   main:
