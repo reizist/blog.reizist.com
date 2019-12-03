@@ -7,14 +7,21 @@ jobs:
   deploy:
     docker:
       - image: reizist/alpine-hugo
+    working_directory: ~/hugo
     steps:
       - attach_workspace:
           at: blog-reizist-com
+      - run: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - run:
+          name: git config
+          command: | 
+              git config --global user.name $GIT_USER
+              git config --global user.email $GIT_EMAIL
       - run: git clone -b gh-pages git@github.com:reizist/blog.reizist.com public
       - run: cp -r blog-reizist-com/public public
       - run: cd public
       - run: git status --porcelain
-      - run: git add .
+      - run: git add --all
       - run: git commit -m "update"
       - run: git push git@github.com:reizist/blog.reizist.com gh-pages
 
