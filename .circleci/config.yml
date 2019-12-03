@@ -10,6 +10,8 @@ jobs:
     steps:
       - attach_workspace:
           at: blog-reizist-com
+      - run: git clone -b gh-pages git@github.com:reizist/blog.reizist.com public
+      - run: cp -r blog-reizist-com/public public
       - run: cd public
       - run: git status --porcelain
       - run: git add .
