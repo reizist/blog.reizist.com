@@ -3,12 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://blog.reizist.com/post/output-coverage-slack/</loc>
-    <lastmod>2018-11-08T02:17:00+09:00</lastmod>
+    <loc>https://blog.reizist.com/hoge/</loc>
+    <lastmod>2019-12-04T03:25:03+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.reizist.com/categories/</loc>
+    <loc>https://blog.reizist.com/</loc>
+    <lastmod>2019-12-04T03:25:03+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -19,13 +20,17 @@
   </url>
   
   <url>
-    <loc>https://blog.reizist.com/tags/</loc>
+    <loc>https://blog.reizist.com/post/output-coverage-slack/</loc>
+    <lastmod>2018-11-08T02:17:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.reizist.com/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://blog.reizist.com/</loc>
-    <lastmod>2018-11-08T02:17:00+09:00</lastmod>
+    <loc>https://blog.reizist.com/tags/</loc>
     <priority>0</priority>
   </url>
   
