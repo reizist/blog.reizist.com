@@ -77,11 +77,11 @@
             
             <div class="posts">
                 
-                <h1 class="content-subhead">04 Dec 2019, 03:25</h1>
+                <h1 class="content-subhead">09 Jun 2020, 10:50</h1>
                 <section class="post">
                     <header class="post-header">
 
-                        <a href="https://blog.reizist.com/hoge/" class="post-title">Hoge</a>
+                        <a href="https://blog.reizist.com/post/datalake-s3-export-rds/" class="post-title">Datalake S3 Export Rds</a>
 
                         <p class="post-meta">
                             
@@ -90,7 +90,15 @@
                     </header>
 
                     <div class="post-description">
-                        <p>test test</p>
+                        <p>データレイクをどうするかを考える機会があったのでシュッとメモ :memo:</p>
+
+<p>現在データマートを作るための、生データの参照先として、日時でとったsnapshotからrestoreしたDBを構築している(レポーティングDBと呼称している TODO: レポーティングDBとよんでいる理由?)。
+が、DBのrunning costも馬鹿にならないし、マイクロサービスの文脈でボンボン新たなDBが映えるたびに1:1でレポーティングDBをボンボン増やすのもなぁ、ということで、S3をデータレイクにするパターンを検証した。</p>
+
+<p>検証といってもやったことは単純で、<a href="https://aws.amazon.com/jp/about-aws/whats-new/2020/01/announcing-amazon-relational-database-service-snapshot-export-to-s3/">今年1月に発表されたRDS snapshotをS3にエクスポートする機能</a>を使い、snapshotをparquet化。
+Glueクローラを用いてS3からスキーマ検出/Athena上でテーブル化された状態で<a href="https://github.com/shinji19/embulk-input-athena">embulk-input-athena</a>を用いてBQに投げることができるのを確認した。</p>
+
+<p>唯一ハマったのは、S3へのexport時デフォルトでKMSによって暗号化されているためS3を参照するロールにKMSのDecrypt権限 <code>&quot;kms:Decrypt&quot;</code> が必要になる点。</p>
 
                     </div>
                 </section>

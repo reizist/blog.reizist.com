@@ -3,19 +3,19 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://blog.reizist.com/hoge/</loc>
-    <lastmod>2019-12-04T03:25:03+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.reizist.com/</loc>
-    <lastmod>2019-12-04T03:25:03+09:00</lastmod>
-    <priority>0</priority>
+    <loc>https://blog.reizist.com/post/datalake-s3-export-rds/</loc>
+    <lastmod>2020-06-09T10:50:22+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.reizist.com/post/</loc>
-    <lastmod>2018-11-08T02:17:00+09:00</lastmod>
+    <lastmod>2020-06-09T10:50:22+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.reizist.com/</loc>
+    <lastmod>2020-06-09T10:50:22+09:00</lastmod>
     <priority>0</priority>
   </url>
   
