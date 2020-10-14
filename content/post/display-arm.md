@@ -8,6 +8,8 @@ http://reizist.hatenablog.com/entry/2017/03/03/044202
 
 Philips の4Kディスプレイ[BDM4350UC/11](https://www.amazon.co.jp/exec/obidos/ASIN/B01D9FP20A/reiji012-22/)を使っているが、脚の高さが足りず、Macbookのディスプレイを見る必要があるとき(主にリモート環境で通話を行う場合: 頻度はほぼ毎日)にディスプレイの下半分が見えず不便している。
 
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">display環境2020（しばらくアップデートなし）なんだけどなんか改善したくなってきた。<br>4Kディスプレイ底上げしたいソリューション is 何 <a href="https://t.co/KwOBAevLIv">pic.twitter.com/KwOBAevLIv</a></p>&mdash; reizist (@reizist) <a href="https://twitter.com/reizist/status/1316308402583134209?ref_src=twsrc%5Etfw">October 14, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 モニターアームを買うことで解決しようとしている。
 
 [Amazonベーシックモニターアーム](https://www.amazon.co.jp/dp/B00MIBN16O)が良さそうという情報を得た。
