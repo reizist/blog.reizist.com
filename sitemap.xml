@@ -3,20 +3,25 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://blog.reizist.com/post/datalake-s3-export-rds/</loc>
-    <lastmod>2020-06-09T10:50:22+09:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.reizist.com/post/</loc>
-    <lastmod>2020-06-09T10:50:22+09:00</lastmod>
+    <lastmod>2020-10-14T19:28:05+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.reizist.com/</loc>
-    <lastmod>2020-06-09T10:50:22+09:00</lastmod>
+    <lastmod>2020-10-14T19:28:05+09:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.reizist.com/post/display-arm/</loc>
+    <lastmod>2020-10-14T19:28:05+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.reizist.com/post/datalake-s3-export-rds/</loc>
+    <lastmod>2020-06-09T10:50:22+09:00</lastmod>
   </url>
   
   <url>

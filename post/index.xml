@@ -6,10 +6,24 @@
     <description>Recent content in Posts on reizist&#39;s memo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 09 Jun 2020 10:50:22 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 14 Oct 2020 19:28:05 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.reizist.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ディスプレイ環境2020</title>
+      <link>https://blog.reizist.com/post/display-arm/</link>
+      <pubDate>Wed, 14 Oct 2020 19:28:05 +0900</pubDate>
+      
+      <guid>https://blog.reizist.com/post/display-arm/</guid>
+      <description>http://reizist.hatenablog.com/entry/2017/03/03/044202
+Philips の4KディスプレイBDM4350UC/11を使っているが、脚の高さが足りず、Macbookのディスプレイを見る必要があるとき(主にリモート環境で通話を行う場合: 頻度はほぼ毎日)にディスプレイの下半分が見えず不便している。
+モニターアームを買うことで解決しようとしている。
+Amazonベーシックモニターアームが良さそうという情報を得た。
+これはエルゴトロンLXのOEMで本家よりも少し安く、セール時には8000円未満で買えるらしい。在庫復活はよ
+BDM4350UC/11 の場合、 VESA変換プレートが必要になりそうなので合わせて購入する。</description>
+    </item>
     
     <item>
       <title>Datalake S3 Export Rds</title>
