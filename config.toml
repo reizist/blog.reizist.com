@@ -1,7 +1,7 @@
 baseURL = "https://blog.reizist.com/"
 languageCode = "en-us"
 title = "reizist's memo"
-theme = "purehugo"
+theme = "github-style"
 Paginate = 5
 disqusShortname = "reizist"
 google_analytics = "UA-128918318-1"
@@ -12,3 +12,10 @@ google_analytics = "UA-128918318-1"
   githubName = "reizist"
   stackOverflowId = "8758262"
   description = "reizist's daily memo"
+
+  author = "reizist"
+  github = "reizist"
+  instagram = "reizist7"
+  rss = true
+  url = "https://twitter.com/reizist"
+  lastmod = false
