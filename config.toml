@@ -1,5 +1,5 @@
 baseURL = "https://blog.reizist.com/"
-languageCode = "en-us"
+languageCode = "jp"
 title = "reizist's memo"
 theme = "github-style"
 Paginate = 5
