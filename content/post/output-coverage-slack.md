@@ -6,6 +6,9 @@ draft: false
 ---
 
 test coverageをcircleciでoutputするようにした。
+
+<!--more-->
+
 所属チームの他のコンポーネントでテスト的に無料枠のCodecovを使っていて、
 自分がメインで見ているrailsプロダクトにもcoverageを意識的に見る文化を取り入れたいと思ったものの
 Codecovを最初から有料枠にするのも気が引けたので無料でできる範囲から。

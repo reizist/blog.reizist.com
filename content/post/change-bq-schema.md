@@ -8,6 +8,8 @@ BigQueryのWeb Console上からは一度定義したテーブルのスキーマ�
 
 が、カラムの型を変更するときのオペレーションをさっくりメモ。
 
+<!--more-->
+
 Doc は https://cloud.google.com/bigquery/docs/manually-changing-schemas にある。
 
 ## 1. バックアップ
