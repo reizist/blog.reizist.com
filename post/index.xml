@@ -5,7 +5,7 @@
     <link>https://blog.reizist.com/post/</link>
     <description>Recent content in Posts on reizist&#39;s memo</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>jp</language>
     <lastBuildDate>Fri, 05 Mar 2021 20:37:58 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.reizist.com/post/index.xml" rel="self" type="application/rss+xml" />
@@ -17,10 +17,9 @@
       <pubDate>Fri, 05 Mar 2021 20:37:58 +0900</pubDate>
       
       <guid>https://blog.reizist.com/post/change-bq-schema/</guid>
-      <description> BigQueryのWeb Console上からは一度定義したテーブルのスキーマ情報は更新ができず、カラム追加のみ可能となっている。
-が、カラムの型を変更するときのオペレーションをさっくりメモ。
-Doc は https://cloud.google.com/bigquery/docs/manually-changing-schemas にある。
-1. バックアップ bq cp --project_id target_project_id -f target_dataset.target_table target_dataset.target_table_copy  2. 型変換 bq query --project_id target_project_id --destination_table target_dataset.target_table --replace --use_legacy_sql=false &#39;SELECT * EXCEPT(target_column), CAST(target_column AS TARGET_TYPE) AS target_column FROM target_dataset.target_table where _PARTITIONDATE&amp;gt;&amp;quot;2015-01-01&amp;quot;&#39;  3. バックアップ消去 bq rm --project_id target_project_id target_dataset.target_table_copy  </description>
+      <description>&lt;p&gt;BigQueryのWeb Console上からは一度定義したテーブルのスキーマ情報は更新ができず、カラム追加のみ可能となっている。&lt;/p&gt;
+
+&lt;p&gt;が、カラムの型を変更するときのオペレーションをさっくりメモ。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -29,15 +28,9 @@ Doc は https://cloud.google.com/bigquery/docs/manually-changing-schemas にあ�
       <pubDate>Wed, 14 Oct 2020 19:28:05 +0900</pubDate>
       
       <guid>https://blog.reizist.com/post/display-arm/</guid>
-      <description>http://reizist.hatenablog.com/entry/2017/03/03/044202
-Philips の4KディスプレイBDM4350UC/11を使っているが、脚の高さが足りず、Macbookのディスプレイを見る必要があるとき(主にリモート環境で通話を行う場合: 頻度はほぼ毎日)にディスプレイの下半分が見えず不便している。
-display環境2020（しばらくアップデートなし）なんだけどなんか改善したくなってきた。
-4Kディスプレイ底上げしたいソリューション is 何 pic.twitter.com/KwOBAevLIv
-&amp;mdash; reizist (@reizist) October 14, 2020 
-モニターアームを買うことで解決しようとしている。
-Amazonベーシックモニターアームが良さそうという情報を得た。
-これはエルゴトロンLXのOEMで本家よりも少し安く、セール時には8000円未満で買えるらしい。在庫復活はよ
-BDM4350UC/11 の場合、 VESA変換プレートが必要になりそうなので合わせて購入する。</description>
+      <description>&lt;p&gt;&lt;a href=&#34;http://reizist.hatenablog.com/entry/2017/03/03/044202&#34;&gt;http://reizist.hatenablog.com/entry/2017/03/03/044202&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Philips の4Kディスプレイ&lt;a href=&#34;https://www.amazon.co.jp/exec/obidos/ASIN/B01D9FP20A/reiji012-22/&#34;&gt;BDM4350UC/11&lt;/a&gt;を使っているが、脚の高さが足りず、Macbookのディスプレイを見る必要があるとき(主にリモート環境で通話を行う場合: 頻度はほぼ毎日)にディスプレイの下半分が見えず不便している。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -46,10 +39,7 @@ BDM4350UC/11 の場合、 VESA変換プレートが必要になりそうなの�
       <pubDate>Tue, 09 Jun 2020 10:50:22 +0900</pubDate>
       
       <guid>https://blog.reizist.com/post/datalake-s3-export-rds/</guid>
-      <description>データレイクをどうするかを考える機会があったのでシュッとメモ :memo:
-現在データマートを作るための、生データの参照先として、日時でとったsnapshotからrestoreしたDBを構築している(レポーティングDBと呼称している TODO: レポーティングDBとよんでいる理由?)。 が、DBのrunning costも馬鹿にならないし、マイクロサービスの文脈でボンボン新たなDBが映えるたびに1:1でレポーティングDBをボンボン増やすのもなぁ、ということで、S3をデータレイクにするパターンを検証した。
-検証といってもやったことは単純で、今年1月に発表されたRDS snapshotをS3にエクスポートする機能を使い、snapshotをparquet化。 Glueクローラを用いてS3からスキーマ検出/Athena上でテーブル化された状態でembulk-input-athenaを用いてBQに投げることができるのを確認した。
-唯一ハマったのは、S3へのexport時デフォルトでKMSによって暗号化されているためS3を参照するロールにKMSのDecrypt権限 &amp;quot;kms:Decrypt&amp;quot; が必要になる点。</description>
+      <description>&lt;p&gt;データレイクをどうするかを考える機会があったのでシュッとメモ :memo:&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -58,10 +48,7 @@ BDM4350UC/11 の場合、 VESA変換プレートが必要になりそうなの�
       <pubDate>Thu, 08 Nov 2018 02:17:00 +0900</pubDate>
       
       <guid>https://blog.reizist.com/post/output-coverage-slack/</guid>
-      <description>test coverageをcircleciでoutputするようにした。 所属チームの他のコンポーネントでテスト的に無料枠のCodecovを使っていて、 自分がメインで見ているrailsプロダクトにもcoverageを意識的に見る文化を取り入れたいと思ったものの Codecovを最初から有料枠にするのも気が引けたので無料でできる範囲から。
-やったことはほぼ https://qiita.com/u-minor/items/c18f0f03a9255f9e5231 の通りで、
-多少アレンジしている。 circleciでの設定はrun section追加するだけで、プロジェクトの bin/ に放り込んだshell scriptを実行しているだけ。
-- run: name: Post coverage command: bin/post-coverage-to-slack  ### # original: https://gist.githubusercontent.com/u-minor/8cb27fa9c04163142ebd/raw/circleci-coverage-slack # Post coverage rate to Slack # # Usage: bash circleci-coverage-slack.sh [cobertura|jacoco] # # Required environment variables: # # - CIRCLE_TOKEN: project-specific readonly API token (need to access build artifacts for others) # - SLACK_ENDPOINT: Slack endpoint url # - COVERAGE_FILE: coverage xml filename (default: coverage.</description>
+      <description>&lt;p&gt;test coverageをcircleciでoutputするようにした。&lt;/p&gt;</description>
     </item>
     
   </channel>
