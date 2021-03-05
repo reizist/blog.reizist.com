@@ -6,10 +6,22 @@
     <description>Recent content in Posts on reizist&#39;s memo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 14 Oct 2020 19:28:05 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 05 Mar 2021 20:37:58 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.reizist.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>BigQueryでカラムの型を変更する</title>
+      <link>https://blog.reizist.com/post/change-bq-schema/</link>
+      <pubDate>Fri, 05 Mar 2021 20:37:58 +0900</pubDate>
+      
+      <guid>https://blog.reizist.com/post/change-bq-schema/</guid>
+      <description> BigQueryのWeb Console上からは一度定義したテーブルのスキーマ情報は更新ができず、カラム追加のみ可能となっている。
+が、カラムの型を変更するときのオペレーションをさっくりメモ。
+Doc は https://cloud.google.com/bigquery/docs/manually-changing-schemas にある。
+1. バックアップ bq cp --project_id target_project_id -f target_dataset.target_table target_dataset.target_table_copy  2. 型変換 bq query --project_id target_project_id --destination_table target_dataset.target_table --replace --use_legacy_sql=false &#39;SELECT * EXCEPT(target_column), CAST(target_column AS TARGET_TYPE) AS target_column FROM target_dataset.target_table where _PARTITIONDATE&amp;gt;&amp;quot;2015-01-01&amp;quot;&#39;  3. バックアップ消去 bq rm --project_id target_project_id target_dataset.target_table_copy  </description>
+    </item>
     
     <item>
       <title>ディスプレイ環境2020</title>

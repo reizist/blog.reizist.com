@@ -77,6 +77,49 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">05 Mar 2021, 20:37</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.reizist.com/post/change-bq-schema/" class="post-title">BigQueryでカラムの型を変更する</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>BigQueryのWeb Console上からは一度定義したテーブルのスキーマ情報は更新ができず、カラム追加のみ可能となっている。</p>
+
+<p>が、カラムの型を変更するときのオペレーションをさっくりメモ。</p>
+
+<p>Doc は <a href="https://cloud.google.com/bigquery/docs/manually-changing-schemas">https://cloud.google.com/bigquery/docs/manually-changing-schemas</a> にある。</p>
+
+<h2 id="1-バックアップ">1. バックアップ</h2>
+
+<pre><code>bq cp --project_id target_project_id -f target_dataset.target_table target_dataset.target_table_copy
+</code></pre>
+
+<h2 id="2-型変換">2. 型変換</h2>
+
+<pre><code>bq query --project_id target_project_id --destination_table target_dataset.target_table --replace --use_legacy_sql=false 'SELECT
+  * EXCEPT(target_column),
+  CAST(target_column AS TARGET_TYPE) AS target_column
+FROM
+  target_dataset.target_table where _PARTITIONDATE&gt;&quot;2015-01-01&quot;'
+</code></pre>
+
+<h2 id="3-バックアップ消去">3. バックアップ消去</h2>
+
+<pre><code>bq rm --project_id target_project_id target_dataset.target_table_copy
+</code></pre>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">14 Oct 2020, 19:28</h1>
                 <section class="post">
                     <header class="post-header">
