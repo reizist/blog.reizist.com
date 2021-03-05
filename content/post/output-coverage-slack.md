@@ -143,7 +143,6 @@ rm .slack_payload
 
 のでpercentage of coverageをpostしcoverageを意識させつつ詳細を見やすくした、というのが今回の対応です。
 
-{{% img-responsive "/output-coverage-slack/simplecov.png" %}}
 
 
 尚このためにsimplecovの設定としてはMultiFormatterを使っていて
