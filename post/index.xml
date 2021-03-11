@@ -6,10 +6,19 @@
     <description>Recent content in Posts on reizist&#39;s memo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>jp</language>
-    <lastBuildDate>Fri, 05 Mar 2021 20:37:58 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 12 Mar 2021 02:11:47 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.reizist.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>マーケット情報で遊ぶその1 -BigQueryに上場企業リスト作った</title>
+      <link>https://blog.reizist.com/post/play-with-public-listed-companies-on-bigquery/</link>
+      <pubDate>Fri, 12 Mar 2021 02:11:47 +0900</pubDate>
+      
+      <guid>https://blog.reizist.com/post/play-with-public-listed-companies-on-bigquery/</guid>
+      <description>&lt;p&gt;上場銘柄一覧は &lt;a href=&#34;https://www.jpx.co.jp/markets/statistics-equities/misc/01.html&#34;&gt;東京証券取引所のサイト&lt;/a&gt;からダウンロードできる。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>BigQueryでカラムの型を変更する</title>
