@@ -18,13 +18,7 @@
       
       <guid>https://blog.reizist.com/post/play-with-public-listed-companies-stock-data-on-bigquery/</guid>
       <description>&lt;p&gt;ひとまず2021年分の日足チャートをBigQueryに突っ込んでみている。
-データの収集に苦労していて一部のデータではあるけど、遊びがいがありそうなので。&lt;/p&gt;
-
-&lt;h3 id=&#34;2021年年始から30-以上伸びている銘柄&#34;&gt;2021年年始から30%以上伸びている銘柄&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;日足チャートの終値の月平均で比較&lt;/li&gt;
-&lt;/ul&gt;</description>
+まだ一部のデータのみではあるけど、遊びがいがありそうなので。&lt;/p&gt;</description>
     </item>
     
     <item>
