@@ -2,6 +2,7 @@
 title: "BigQuery上でのデータマート構築におけるPJ, datasetの設計"
 date: 2021-08-13T20:44:22+09:00
 draft: false
+cover: "https://blog.reizist.com/images/avatar.png"
 ---
 
 三行で:
