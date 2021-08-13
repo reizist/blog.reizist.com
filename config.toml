@@ -13,6 +13,7 @@ google_analytics = "UA-128918318-1"
   stackOverflowId = "8758262"
   stackoverflow = "8758262"
   description = "reizist's daily memo"
+  avatar = "https://blog.reizist.com/images/avatar.png"
 
   author = "reizist"
   github = "reizist"
