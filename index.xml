@@ -6,10 +6,25 @@
     <description>Recent content on reizist&#39;s memo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>jp</language>
-    <lastBuildDate>Sat, 13 Mar 2021 02:51:39 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 13 Aug 2021 20:44:22 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.reizist.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>BigQuery上でのデータマート構築におけるPJ, datasetの設計</title>
+      <link>https://blog.reizist.com/post/bq_project_best_practice/</link>
+      <pubDate>Fri, 13 Aug 2021 20:44:22 +0900</pubDate>
+      
+      <guid>https://blog.reizist.com/post/bq_project_best_practice/</guid>
+      <description>&lt;p&gt;三行で:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;BigQueryにデータマートを構築するにあたりPJ、datasetの設計をよく考えないとあとで手戻りが発生するので気をつけよう。&lt;/li&gt;
+&lt;li&gt;まずは環境ごとにPJ分離を検討しよう&lt;/li&gt;
+&lt;li&gt;PJ分離の手間は必要な手間&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
     
     <item>
       <title>マーケット情報で遊ぶその2 - 株価情報で遊ぶ</title>
