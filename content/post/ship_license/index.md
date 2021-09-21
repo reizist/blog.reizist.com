@@ -1,5 +1,5 @@
 ---
-title: "一級/特殊船舶をとった"
+title: "一級/特殊船舶免許をとった"
 date: 2021-09-21T12:26:26+09:00
 draft: false
 cover: "https://blog.reizist.com/images/avatar.png"
