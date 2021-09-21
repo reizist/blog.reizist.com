@@ -6,10 +6,25 @@
     <description>Recent content on reizist&#39;s memo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>jp</language>
-    <lastBuildDate>Mon, 23 Aug 2021 16:44:22 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 21 Sep 2021 12:26:26 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.reizist.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>一級/特殊船舶をとった</title>
+      <link>https://blog.reizist.com/post/ship_license/</link>
+      <pubDate>Tue, 21 Sep 2021 12:26:26 +0900</pubDate>
+      
+      <guid>https://blog.reizist.com/post/ship_license/</guid>
+      <description>&lt;h2 id=&#34;はじめに&#34;&gt;はじめに&lt;/h2&gt;
+
+&lt;p&gt;リクルートという会社は、&lt;a href=&#34;https://recruit-saiyo.jp/benefits/&#34;&gt;在籍3年ごとに最大28日連続で取得できるSTEP休暇なる制度がある&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;コロナ以前の時代では、多くの社員が海外に飛び立つ為に取得していたように見受けられたが、コロナ禍において海外に飛び立つのは流石に憚られた。&lt;/p&gt;
+
+&lt;p&gt;仕事以外の、人生スケールでの今後の生き方を考え、最終的には海の近くでゆったり暮らしたいという願望や&lt;a href=&#34;https://tondol.hatenablog.jp/entry/boat-license-in-numazu&#34;&gt;リクルートで流行っている（※N=2)&lt;/a&gt;を踏まえ、船舶免許を取得することにした。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>HerokuのFree planにprod dumpを使おうとしてハマったのでメモ</title>
