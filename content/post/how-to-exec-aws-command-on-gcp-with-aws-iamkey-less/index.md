@@ -4,6 +4,9 @@ date: 2022-06-29T22:28:27+09:00
 draft: false
 ---
 
+AWS Security Token Service(STS)を使って、GCPのservice accountから一時的なAWS認証情報を生成し
+実質service accountがAWS IAMのように振る舞うような状態にする。
+
 実装そのものは[ここ](https://gist.github.com/reizist/e7dfc77dc5b0267b4083044356fb77cc)においてある。
 
 <!--more-->
@@ -12,11 +15,11 @@ draft: false
 
 ## 事前準備
 
-* GCP側で使用するService AccountのUnique IDをメモる
+* GCP側で使用するservice accountのunique idをメモる
 
 ![UniqueId](unique_id.png)
 
-* AWS側でIAMを作成する
+* AWS側でIAM roleを作成する
 
 ![CreateIamRole](create_iam_role.png)
 
