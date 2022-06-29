@@ -17,7 +17,10 @@
       <pubDate>Wed, 29 Jun 2022 22:28:27 +0900</pubDate>
       
       <guid>https://blog.reizist.com/post/how-to-exec-aws-command-on-gcp-with-aws-iamkey-less/</guid>
-      <description>&lt;p&gt;実装そのものは&lt;a href=&#34;https://gist.github.com/reizist/e7dfc77dc5b0267b4083044356fb77cc&#34;&gt;ここ&lt;/a&gt;においてある。&lt;/p&gt;</description>
+      <description>&lt;p&gt;AWS Security Token Service(STS)を使って、GCPのservice accountから一時的なAWS認証情報を生成し
+実質service accountがAWS IAMのように振る舞うような状態にする。&lt;/p&gt;
+
+&lt;p&gt;実装そのものは&lt;a href=&#34;https://gist.github.com/reizist/e7dfc77dc5b0267b4083044356fb77cc&#34;&gt;ここ&lt;/a&gt;においてある。&lt;/p&gt;</description>
     </item>
     
     <item>

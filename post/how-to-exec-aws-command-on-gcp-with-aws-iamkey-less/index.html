@@ -18,7 +18,8 @@
 
     
     <meta name="description"
-  content="実装そのものはここにおいてある。
+  content="AWS Security Token Service(STS)を使って、GCPのservice accountから一時的なAWS認証情報を生成し 実質service accountがAWS IAMのように振る舞うような状態にする。
+実装そのものはここにおいてある。
 " />
 <meta name="keywords"
   content='' />
@@ -29,7 +30,8 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="GCP上でIAMキー無しでAWSコマンドを叩く方法 - reizist&#39;s memo" />
 <meta name="twitter:description"
-  content="実装そのものはここにおいてある。
+  content="AWS Security Token Service(STS)を使って、GCPのservice accountから一時的なAWS認証情報を生成し 実質service accountがAWS IAMのように振る舞うような状態にする。
+実装そのものはここにおいてある。
 " />
 <meta name="twitter:site" content="https://blog.reizist.com/" />
 <meta name="twitter:creator" content="" />
@@ -40,7 +42,8 @@
 <meta property="og:type" content="article" />
 <meta property="og:title" content="GCP上でIAMキー無しでAWSコマンドを叩く方法 - reizist&#39;s memo">
 <meta property="og:description"
-  content="実装そのものはここにおいてある。
+  content="AWS Security Token Service(STS)を使って、GCPのservice accountから一時的なAWS認証情報を生成し 実質service accountがAWS IAMのように振る舞うような状態にする。
+実装そのものはここにおいてある。
 " />
 <meta property="og:url" content="https://blog.reizist.com/post/how-to-exec-aws-command-on-gcp-with-aws-iamkey-less/" />
 <meta property="og:site_name" content="GCP上でIAMキー無しでAWSコマンドを叩く方法" />
@@ -178,7 +181,7 @@
                         <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
                       </svg>
                     </summary>
-                          1202 Words
+                          1301 Words
                     
 
                   </div>
@@ -190,20 +193,23 @@
 
 
               <div class="Box-body px-5 pb-5">
-                <article class="markdown-body entry-content container-lg"><p>実装そのものは<a href="https://gist.github.com/reizist/e7dfc77dc5b0267b4083044356fb77cc">ここ</a>においてある。</p>
+                <article class="markdown-body entry-content container-lg"><p>AWS Security Token Service(STS)を使って、GCPのservice accountから一時的なAWS認証情報を生成し
+実質service accountがAWS IAMのように振る舞うような状態にする。</p>
+
+<p>実装そのものは<a href="https://gist.github.com/reizist/e7dfc77dc5b0267b4083044356fb77cc">ここ</a>においてある。</p>
 
 <p>以下詳細。</p>
 
 <h2 id="事前準備">事前準備</h2>
 
 <ul>
-<li>GCP側で使用するService AccountのUnique IDをメモる</li>
+<li>GCP側で使用するservice accountのunique idをメモる</li>
 </ul>
 
 <p><img src="unique_id.png" alt="UniqueId" /></p>
 
 <ul>
-<li>AWS側でIAMを作成する</li>
+<li>AWS側でIAM roleを作成する</li>
 </ul>
 
 <p><img src="create_iam_role.png" alt="CreateIamRole" /></p>
