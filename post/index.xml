@@ -6,10 +6,19 @@
     <description>Recent content in Posts on reizist&#39;s memo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>jp</language>
-    <lastBuildDate>Tue, 21 Sep 2021 12:26:26 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 29 Jun 2022 22:28:27 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.reizist.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>GCP上でIAMキー無しでAWSコマンドを叩く方法</title>
+      <link>https://blog.reizist.com/post/how-to-exec-aws-command-on-gcp-with-aws-iamkey-less/</link>
+      <pubDate>Wed, 29 Jun 2022 22:28:27 +0900</pubDate>
+      
+      <guid>https://blog.reizist.com/post/how-to-exec-aws-command-on-gcp-with-aws-iamkey-less/</guid>
+      <description>&lt;p&gt;実装そのものは&lt;a href=&#34;https://gist.github.com/reizist/e7dfc77dc5b0267b4083044356fb77cc&#34;&gt;ここ&lt;/a&gt;においてある。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>一級/特殊船舶免許をとった</title>
