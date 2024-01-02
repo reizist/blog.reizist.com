@@ -1,0 +1,60 @@
+.amazon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.amazon-widget {
+    margin: 2rem 0;
+    width: 500px;
+    max-width: 600px;
+    position: relative;
+}
+.amazon-widget a {
+    position: absolute;
+    top:0;
+    left:0;
+    height: 100%;
+    width: 100%;
+}
+.amazon-widget-img {
+    border: 1px solid var(--color-border-secondary);
+    border-radius: 15px 15px 0 0;
+    text-align: center;
+ }
+
+.amazon-widget-img:hover {
+    background-color: var(--color-btn-hover-bg);
+ }
+.amazon-widget-img img {
+    border: none;
+    margin: 0 auto;
+    max-height: 200px;
+    padding: 16px;
+}
+.amazon-widget-info {
+    border-right: 1px solid var(--color-btn-hover-bg);
+    border-bottom: 1px solid var(--color-btn-hover-bg);
+    border-left: 1px solid var(--color-btn-hover-bg);
+    padding:5px 10px 10px 10px;
+    border-radius:0 0 15px 15px;
+}
+.amazon-widget:hover .amazon-widget-info {
+    background-color: var(--color-btn-hover-bg);
+}
+.amazon-widget-title {
+    font-weight: bold;
+    display:block;
+}
+.amazon-widget-via {
+    color: var(--color-text-primary);
+}
+.amazon-widget-via img {
+    border: none;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    display: inline;
+    vertical-align: text-bottom;
+}

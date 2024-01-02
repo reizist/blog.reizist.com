@@ -7,6 +7,7 @@ disqusShortname = "reizist"
 google_analytics = "UA-128918318-1"
 
 [params]
+  amazonJpAffiliate = "reiji012-22"
   twitter = "reizist"
   twitterName = "reizist"
   githubName = "reizist"
