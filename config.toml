@@ -9,6 +9,7 @@ google_analytics = "UA-128918318-1"
 [params]
   twitter = "reizist"
   twitterName = "reizist"
+  twitterCardType = "summary_large_image"
   githubName = "reizist"
   stackOverflowId = "8758262"
   stackoverflow = "8758262"
