@@ -1,7 +1,7 @@
 baseURL = "https://blog.reizist.com/"
 languageCode = "jp"
 title = "reizist's memo"
-theme = "github-style"
+theme = "my-github-style"
 Paginate = 5
 disqusShortname = "reizist"
 google_analytics = "UA-128918318-1"
