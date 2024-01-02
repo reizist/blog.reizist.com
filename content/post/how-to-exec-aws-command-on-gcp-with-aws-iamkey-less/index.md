@@ -2,6 +2,7 @@
 title: "GCP上でIAMキー無しでAWSコマンドを叩く方法"
 date: 2022-06-29T22:28:27+09:00
 draft: false
+tags: ["engineering"]
 ---
 
 AWS Security Token Service(STS)を使って、GCPのservice accountから一時的なAWS認証情報を生成し

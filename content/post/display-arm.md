@@ -1,7 +1,7 @@
 ---
 title: "ディスプレイ環境2020"
 date: 2020-10-14T19:28:05+09:00
-draft: false
+draft: true
 ---
 
 http://reizist.hatenablog.com/entry/2017/03/03/044202

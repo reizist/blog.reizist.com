@@ -3,6 +3,7 @@ title: "test coverageをcircleciでoutputするようにした"
 description: "test coverageをcircleciでoutputするようにした"
 date: 2018-11-08T02:17:00+09:00
 draft: false
+tags: ["engineering"]
 ---
 
 test coverageをcircleciでoutputするようにした。

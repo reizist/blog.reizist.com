@@ -2,6 +2,7 @@
 title: "Datalake S3 Export Rds"
 date: 2020-06-09T10:50:22+09:00
 draft: false
+tags: ["engineering"]
 ---
 
 データレイクをどうするかを考える機会があったのでシュッとメモ :memo:

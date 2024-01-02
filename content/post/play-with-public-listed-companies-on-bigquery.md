@@ -2,6 +2,7 @@
 title: "マーケット情報で遊ぶその1 -BigQueryに上場企業リスト作った"
 date: 2021-03-12T02:11:47+09:00
 draft: false
+tags: ["engineering"]
 ---
 
 上場銘柄一覧は [東京証券取引所のサイト](https://www.jpx.co.jp/markets/statistics-equities/misc/01.html)からダウンロードできる。

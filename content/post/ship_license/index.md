@@ -2,18 +2,17 @@
 title: "一級/特殊船舶免許をとった"
 date: 2021-09-21T12:26:26+09:00
 draft: false
-cover: "https://blog.reizist.com/images/avatar.png"
+tags: ["life"]
 ---
 
-## はじめに
 
 リクルートという会社は、[在籍3年ごとに最大28日連続で取得できるSTEP休暇なる制度がある](https://recruit-saiyo.jp/benefits/)。
+
+<!--more-->
 
 コロナ以前の時代では、多くの社員が海外に飛び立つ為に取得していたように見受けられたが、コロナ禍において海外に飛び立つのは流石に憚られた。
 
 仕事以外の、人生スケールでの今後の生き方を考え、最終的には海の近くでゆったり暮らしたいという願望や[リクルートで流行っている（※N=2)](https://tondol.hatenablog.jp/entry/boat-license-in-numazu)ことを踏まえ、船舶免許を取得することにした。
-
-<!--more-->
 
 ## 船舶免許について
 

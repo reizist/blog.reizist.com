@@ -2,6 +2,7 @@
 title: "BigQueryでカラムの型を変更する"
 date: 2021-03-05T20:37:58+09:00
 draft: false
+tags: ["engineering"]
 ---
 
 BigQueryのWeb Console上からは一度定義したテーブルのスキーマ情報は更新ができず、カラム追加のみ可能となっている。
