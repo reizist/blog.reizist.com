@@ -4,7 +4,7 @@ title = "reizist's memo"
 theme = "my-github-style"
 Paginate = 5
 disqusShortname = "reizist"
-google_analytics = "UA-128918318-1"
+googleAnalytics = "G-9SW1WXQHM8"
 
 [params]
   amazonJpAffiliate = "reiji012-22"
