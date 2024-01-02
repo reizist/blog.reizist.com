@@ -1,10 +1,13 @@
+<link rel="stylesheet" href='{{ "css/custom.css" | absURL }}' />
+<script src="https://kit.fontawesome.com/f08c5c463d.js" crossorigin="anonymous"></script>
+
 <section class="section sns_parent">
   <div class="sns_section">
     <div class="sns_button twitter">
-      <a href="http://twitter.com/intent/tweet?url={{ .Permalink }}&text={{ .Title }}" target="_blank" title="Tweet"><i class="fab fa-twitter"></i></a>
+      <a href="http://twitter.com/intent/tweet?url={{ .Permalink }}&text={{ .Title }}" target="_blank" title="Tweet"><i class="fa-brands fa-twitter"></i></a>
     </div>
     <div class="sns_button facebook">
-      <a href="http://www.facebook.com/sharer.php?u={{ .Permalink }}&t={{ .Title }}" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+      <a href="http://www.facebook.com/sharer.php?u={{ .Permalink }}&t={{ .Title }}" target="_blank" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
     </div>
     <div class="sns_button hatena">
       <a href="http://b.hatena.ne.jp/add?mode=confirm&url={{ .Permalink }}&title={{ .Title }}" target="_blank" title="hatena"><i class="fa fa-hatena"></i></i></a>
