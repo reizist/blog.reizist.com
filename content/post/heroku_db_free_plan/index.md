@@ -2,7 +2,7 @@
 title: "HerokuのFree planにprod dumpを使おうとしてハマったのでメモ"
 date: 2021-08-23T16:44:22+09:00
 draft: false
-cover: "https://blog.reizist.com/images/avatar.png"
+Cover: "https://blog.reizist.com/images/avatar.png"
 ---
 
 二行で:
