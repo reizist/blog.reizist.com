@@ -1,267 +1,71 @@
-<!DOCTYPE html>
-<html lang="jp">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <script type="application/javascript" src='https://blog.reizist.com/js/theme-mode.js'></script>
-    <link rel="stylesheet" href='https://blog.reizist.com/css/frameworks.min.css' />
-    <link rel="stylesheet" href='https://blog.reizist.com/css/github.min.css' />
-    <link rel="stylesheet" href='https://blog.reizist.com/css/github-style.css' />
-    <link rel="stylesheet" href='https://blog.reizist.com/css/light.css' />
-    <link rel="stylesheet" href='https://blog.reizist.com/css/dark.css' />
-    <link rel="stylesheet" href='https://blog.reizist.com/css/syntax.css' />
-    <title>マーケット情報で遊ぶその2 - 株価情報で遊ぶ - reizist&#39;s memo</title>
-    
-    <link rel="icon" type="image/x-icon" href='https://blog.reizist.com/images/favicon.ico'>
-    
-    <meta name="theme-color" content="#1e2327">
-
-    
-    <meta name="description"
-  content="ひとまず2021年分の日足チャートをBigQueryに突っ込んでみている。 まだ一部のデータのみではあるけど、遊びがいがありそうなので。
-" />
-<meta name="keywords"
-  content='' />
-<meta name="robots" content="noodp" />
-<link rel="canonical" href="https://blog.reizist.com/post/play-with-public-listed-companies-stock-data-on-bigquery/" />
-
-
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="マーケット情報で遊ぶその2 - 株価情報で遊ぶ - reizist&#39;s memo" />
-<meta name="twitter:description"
-  content="ひとまず2021年分の日足チャートをBigQueryに突っ込んでみている。 まだ一部のデータのみではあるけど、遊びがいがありそうなので。
-" />
-<meta name="twitter:site" content="https://blog.reizist.com/" />
-<meta name="twitter:creator" content="" />
-<meta name="twitter:image"
-  content="https://blog.reizist.com/">
-
-
-<meta property="og:type" content="article" />
-<meta property="og:title" content="マーケット情報で遊ぶその2 - 株価情報で遊ぶ - reizist&#39;s memo">
-<meta property="og:description"
-  content="ひとまず2021年分の日足チャートをBigQueryに突っ込んでみている。 まだ一部のデータのみではあるけど、遊びがいがありそうなので。
-" />
-<meta property="og:url" content="https://blog.reizist.com/post/play-with-public-listed-companies-stock-data-on-bigquery/" />
-<meta property="og:site_name" content="マーケット情報で遊ぶその2 - 株価情報で遊ぶ" />
-<meta property="og:image"
-  content="https://blog.reizist.com/">
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
-
-<meta property="article:published_time" content="2021-03-13 02:51:39 &#43;0900 &#43;0900" />
-
-
-
-
-
-
-
-
-
-
-
-
-</head>
-
-<body>
-  <div style="position: relative">
-  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
-    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
-      <a class="Header-link" href="https://blog.reizist.com/">
-        <svg class="octicon" height="32" viewBox="0 0 16 16" version="1.1" width="32">
-          <path fill-rule="evenodd"
-            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
-          </path>
-        </svg>
-      </a>
-    </div>
-    <div class="Header-item d-md-none">
-      <button class="Header-link btn-link js-details-target" type="button"
-        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
-        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
-          <path fill-rule="evenodd"
-            d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
-          </path>
-        </svg>
-      </button>
-    </div>
-    <div style="display: none;" id="header-search"
-      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
-      <div
-        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
-        <div class="position-relative">
-          <form target="_blank" action="https://www.google.com/search" accept-charset="UTF-8" method="get"
-            autocomplete="off">
-            <label
-              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
-              <input type="text"
-                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
-                name="q" value="" placeholder="Search" autocomplete="off">
-              <input type="hidden" name="q" value="site:https://blog.reizist.com/">
-            </label>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
-      <a class="Header-link " href="https://blog.reizist.com/">
-        <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1"
-          width="32">
-          <path fill-rule="evenodd"
-            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
-          </path>
-        </svg>
-      </a>
-    </div>
-    <div class="Header-item" style="margin-right: 0;">
-      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
-        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
-          version="1.1" width="16" height="16">
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
-          </path>
-        </svg>
-      </a>
-    </div>
-  </header>
-</div>
-  
-<script src="https://unpkg.com/@popperjs/core@2"></script>
-<script src="https://unpkg.com/tippy.js@6"></script>
-<div>
-  <main>
-    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
-      <div class="px-0">
-        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
-          <div class="flex-auto min-width-0 width-fit mr-3">
-            <div class="d-flex">
-              <div class="d-none d-md-block">
-                <a class="avatar mr-2 flex-shrink-0" href="https://blog.reizist.com/">
-                  <img class=" avatar-user"
-                    src="https://blog.reizist.com/images/avatar.png"
-                    width="32" height="32"></a>
-              </div>
-              <div class="d-flex flex-column">
-                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
-                  <span class="author">
-                    <a href="https://blog.reizist.com/">reizist</a></span><span
-                    class="path-divider">/</span><strong class="css-truncate-target mr-1" style="max-width: 410px"><a
-                      href="https://blog.reizist.com/post/play-with-public-listed-companies-stock-data-on-bigquery/">マーケット情報で遊ぶその2 - 株価情報で遊ぶ</a></strong>
-                </h1>
-                <div class="note m-0">
-                  Created <relative-time datetime="Sat, 13 Mar 2021 02:51:39 &#43;0900"
-                    class="no-wrap">
-                    Sat, 13 Mar 2021 02:51:39 &#43;0900</relative-time>
-
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container-lg px-3 new-discussion-timeline">
-      <div class="repository-content gist-content">
-        <div>
-          <div class="js-gist-file-update-container js-task-list-container file-box">
-            <div id="file-pytest" class="file my-2">
-              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header">
-                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
-                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
-                    
-                    <summary id="toc-toggle" class="btn btn-octicon m-0 mr-2 p-2" aria-haspopup="menu" aria-label="Table of Contents" role="button">
-                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
-                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
-                      </svg>
-                    </summary>
-                          1093 Words
-                    
-
-                  </div>
-                  <div class="file-actions flex-order-2 pt-0">
-                    
-                  </div>
-                </div>
-              </div>
-
-
-              <div class="Box-body px-5 pb-5">
-                <article class="markdown-body entry-content container-lg"><p>ひとまず2021年分の日足チャートをBigQueryに突っ込んでみている。
-まだ一部のデータのみではあるけど、遊びがいがありそうなので。</p>
-
-<h3 id="2021年年始から30-以上伸びている銘柄">2021年年始から30%以上伸びている銘柄</h3>
-
-<ul>
-<li>日足チャートの終値の月平均で比較</li>
-</ul>
-
-<pre><code class="language-sql">SELECT
-  companies.name,
-  result.*,
-  (diff / first_value) AS growth_rate
-FROM (
-  SELECT
-    *
-  FROM (
-    SELECT
-      base.code,
-      base.average AS first_value,
-      latest.average AS last_value,
-      (latest.average - base.average) AS diff
-    FROM (
-      SELECT
-        code,
-        AVG(finish) AS average,
-        EXTRACT(MONTH
-        FROM
-          DATE(date)) AS month
-      FROM
-        reizist-stocks.market.stocks
-      WHERE
-        EXTRACT(MONTH
-        FROM
-          DATE(date)) = 1
-      GROUP BY
-        code,
-        EXTRACT(MONTH
-        FROM
-          DATE(date))) base
-    INNER JOIN (
-      SELECT
-        *
-      FROM (
-        SELECT
-          code,
-          AVG(finish) AS average,
-          EXTRACT(MONTH
-          FROM
-            DATE(date)) AS month
-        FROM
-          reizist-stocks.market.stocks
-        WHERE
-          EXTRACT(MONTH
-          FROM
-            DATE(date)) = 3
-        GROUP BY
-          code,
-          EXTRACT(MONTH
-          FROM
-            DATE(date)))) latest
-    ON
-      base.code = latest.code)
-  WHERE
-    diff / first_value &gt; 0.3) result
-INNER JOIN
-  reizist-stocks.market.companies
-ON
-  companies.code = result.code
-</code></pre>
-
-<pre><code>name	code	first_value	last_value	diff	growth_rate
+<!doctype html><html lang=jp><head><meta charset=utf-8><meta name=viewport content="width=device-width"><script type=application/javascript src=https://blog.reizist.com/js/theme-mode.js></script>
+<link rel=stylesheet href=https://blog.reizist.com/css/frameworks.min.css><link rel=stylesheet href=https://blog.reizist.com/css/github.min.css><link rel=stylesheet href=https://blog.reizist.com/css/github-style.css><link rel=stylesheet href=https://blog.reizist.com/css/light.css><link rel=stylesheet href=https://blog.reizist.com/css/dark.css><link rel=stylesheet href=https://blog.reizist.com/css/syntax.css><title>マーケット情報で遊ぶその2 - 株価情報で遊ぶ - reizist's memo</title><link rel=icon type=image/x-icon href=https://blog.reizist.com/images/favicon.ico><meta name=theme-color content="#1e2327"><meta name=description content="ひとまず2021年分の日足チャートをBigQueryに突っ込んでみている。 まだ一部のデータのみではあるけど、遊びがいがありそうなので。
+"><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=https://blog.reizist.com/post/play-with-public-listed-companies-stock-data-on-bigquery/><meta name=twitter:card content="summary"><meta name=twitter:title content="マーケット情報で遊ぶその2 - 株価情報で遊ぶ - reizist's memo"><meta name=twitter:description content="ひとまず2021年分の日足チャートをBigQueryに突っ込んでみている。 まだ一部のデータのみではあるけど、遊びがいがありそうなので。
+"><meta name=twitter:site content="https://blog.reizist.com/"><meta name=twitter:creator content><meta name=twitter:image content="https://blog.reizist.com/"><meta property="og:type" content="article"><meta property="og:title" content="マーケット情報で遊ぶその2 - 株価情報で遊ぶ - reizist's memo"><meta property="og:description" content="ひとまず2021年分の日足チャートをBigQueryに突っ込んでみている。 まだ一部のデータのみではあるけど、遊びがいがありそうなので。
+"><meta property="og:url" content="https://blog.reizist.com/post/play-with-public-listed-companies-stock-data-on-bigquery/"><meta property="og:site_name" content="マーケット情報で遊ぶその2 - 株価情報で遊ぶ"><meta property="og:image" content="https://blog.reizist.com/"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2021-03-13 02:51:39 +0900 +0900"></head><body><div style=position:relative><header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on"><div class="Header-item mobile-none" style=margin-top:-4px;margin-bottom:-4px><a class=Header-link href=https://blog.reizist.com/><svg class="octicon" height="32" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58.0.0 3.58.0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38.0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95.0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12.0.0.67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15.0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48.0 1.07-.01 1.93-.01 2.2.0.21.15.46.55.38A8.013 8.013.0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a></div><div class="Header-item d-md-none"><button class="Header-link btn-link js-details-target" type=button onclick='document.querySelector("#header-search").style.display=document.querySelector("#header-search").style.display=="none"?"block":"none"'><svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" width="24"><path fill-rule="evenodd" d="M1 2.75A.75.75.0 011.75 2h12.5a.75.75.0 110 1.5H1.75A.75.75.0 011 2.75zm0 5A.75.75.0 011.75 7h12.5a.75.75.0 110 1.5H1.75A.75.75.0 011 7.75zM1.75 12a.75.75.0 100 1.5h12.5a.75.75.0 100-1.5H1.75z"/></svg></button></div><div style=display:none id=header-search class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex"><div class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to"><div class=position-relative><form target=_blank action=https://www.google.com/search accept-charset=utf-8 method=get autocomplete=off><label class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center"><input type=text class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable" name=q placeholder=Search autocomplete=off>
+<input type=hidden name=q value=site:https://blog.reizist.com/></label></form></div></div></div><div class="Header-item Header-item--full flex-justify-center d-md-none position-relative"><a class=Header-link href=https://blog.reizist.com/><svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58.0.0 3.58.0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38.0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95.0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12.0.0.67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15.0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48.0 1.07-.01 1.93-.01 2.2.0.21.15.46.55.38A8.013 8.013.0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a></div><div class=Header-item style=margin-right:0><a href=javascript:void(0) class="Header-link no-select" onclick=switchTheme()><svg style="fill:var(--color-profile-color-modes-toggle-moon)" class="no-select" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.52208 7.71754c3.05612.0 5.53362-2.47748 5.53362-5.5336C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961 9.95801 1.07727 10.3495.771159 10.6474.99992c1.4679 1.12724 2.4141 2.90007 2.4141 4.89391.0 3.40575-2.7609 6.16667-6.16665 6.16667-2.94151.0-5.40199-2.0595-6.018122-4.81523C.794841 6.87902 1.23668 6.65289 1.55321 6.85451 2.41106 7.40095 3.4296 7.71754 4.52208 7.71754z"/></svg></a></div></header></div><script src=https://unpkg.com/@popperjs/core@2></script>
+<script src=https://unpkg.com/tippy.js@6></script><div><main><div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4"><div class=px-0><div class="mb-3 d-flex px-3 px-md-3 px-lg-5"><div class="flex-auto min-width-0 width-fit mr-3"><div class=d-flex><div class="d-none d-md-block"><a class="avatar mr-2 flex-shrink-0" href=https://blog.reizist.com/><img class=avatar-user src=https://blog.reizist.com/images/avatar.png width=32 height=32></a></div><div class="d-flex flex-column"><h1 class="break-word f3 text-normal mb-md-0 mb-1"><span class=author><a href=https://blog.reizist.com/>reizist</a></span><span class=path-divider>/</span><strong class="css-truncate-target mr-1" style=max-width:410px><a href=https://blog.reizist.com/post/play-with-public-listed-companies-stock-data-on-bigquery/>マーケット情報で遊ぶその2 - 株価情報で遊ぶ</a></strong></h1><div class="note m-0">Created <relative-time datetime="Sat, 13 Mar 2021 02:51:39 +0900" class=no-wrap>Sat, 13 Mar 2021 02:51:39 +0900</relative-time></div></div></div></div></div></div></div><div class="container-lg px-3 new-discussion-timeline"><div class="repository-content gist-content"><div><div class="js-gist-file-update-container js-task-list-container file-box"><div id=file-pytest class="file my-2"><div id=post-header class="file-header d-flex flex-md-items-center flex-items-start sticky-header"><div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto"><div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0"><summary id=toc-toggle class="btn btn-octicon m-0 mr-2 p-2" aria-haspopup=menu aria-label="Table of Contents" role=button><svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered"><path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75.0 000 1.5h8.5a.75.75.0 000-1.5h-8.5zm0 5a.75.75.0 000 1.5h8.5a.75.75.0 000-1.5h-8.5zm0 5a.75.75.0 000 1.5h8.5a.75.75.0 000-1.5h-8.5zM3 8A1 1 0 111 8a1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"/></svg></summary>1093 Words</div><div class="file-actions flex-order-2 pt-0"></div></div></div><div class="Box-body px-5 pb-5"><article class="markdown-body entry-content container-lg"><p>ひとまず2021年分の日足チャートをBigQueryに突っ込んでみている。
+まだ一部のデータのみではあるけど、遊びがいがありそうなので。</p><h3 id=2021年年始から30以上伸びている銘柄>2021年年始から30%以上伸びている銘柄</h3><ul><li>日足チャートの終値の月平均で比較</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span>
+</span></span><span style=display:flex><span>  companies.name,
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>result</span>.<span style=color:#f92672>*</span>,
+</span></span><span style=display:flex><span>  (diff <span style=color:#f92672>/</span> first_value) <span style=color:#66d9ef>AS</span> growth_rate
+</span></span><span style=display:flex><span><span style=color:#66d9ef>FROM</span> (
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> (
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span>
+</span></span><span style=display:flex><span>      base.code,
+</span></span><span style=display:flex><span>      base.average <span style=color:#66d9ef>AS</span> first_value,
+</span></span><span style=display:flex><span>      latest.average <span style=color:#66d9ef>AS</span> last_value,
+</span></span><span style=display:flex><span>      (latest.average <span style=color:#f92672>-</span> base.average) <span style=color:#66d9ef>AS</span> diff
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> (
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>SELECT</span>
+</span></span><span style=display:flex><span>        code,
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>AVG</span>(finish) <span style=color:#66d9ef>AS</span> average,
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>EXTRACT</span>(<span style=color:#66d9ef>MONTH</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>FROM</span>
+</span></span><span style=display:flex><span>          DATE(date)) <span style=color:#66d9ef>AS</span> <span style=color:#66d9ef>month</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>FROM</span>
+</span></span><span style=display:flex><span>        reizist<span style=color:#f92672>-</span>stocks.market.stocks
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>WHERE</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>EXTRACT</span>(<span style=color:#66d9ef>MONTH</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>FROM</span>
+</span></span><span style=display:flex><span>          DATE(date)) <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>GROUP</span> <span style=color:#66d9ef>BY</span>
+</span></span><span style=display:flex><span>        code,
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>EXTRACT</span>(<span style=color:#66d9ef>MONTH</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>FROM</span>
+</span></span><span style=display:flex><span>          DATE(date))) base
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>INNER</span> <span style=color:#66d9ef>JOIN</span> (
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>SELECT</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>FROM</span> (
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>SELECT</span>
+</span></span><span style=display:flex><span>          code,
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>AVG</span>(finish) <span style=color:#66d9ef>AS</span> average,
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>EXTRACT</span>(<span style=color:#66d9ef>MONTH</span>
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>FROM</span>
+</span></span><span style=display:flex><span>            DATE(date)) <span style=color:#66d9ef>AS</span> <span style=color:#66d9ef>month</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>FROM</span>
+</span></span><span style=display:flex><span>          reizist<span style=color:#f92672>-</span>stocks.market.stocks
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>WHERE</span>
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>EXTRACT</span>(<span style=color:#66d9ef>MONTH</span>
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>FROM</span>
+</span></span><span style=display:flex><span>            DATE(date)) <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>GROUP</span> <span style=color:#66d9ef>BY</span>
+</span></span><span style=display:flex><span>          code,
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>EXTRACT</span>(<span style=color:#66d9ef>MONTH</span>
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>FROM</span>
+</span></span><span style=display:flex><span>            DATE(date)))) latest
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>ON</span>
+</span></span><span style=display:flex><span>      base.code <span style=color:#f92672>=</span> latest.code)
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>WHERE</span>
+</span></span><span style=display:flex><span>    diff <span style=color:#f92672>/</span> first_value <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0</span>.<span style=color:#ae81ff>3</span>) <span style=color:#66d9ef>result</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INNER</span> <span style=color:#66d9ef>JOIN</span>
+</span></span><span style=display:flex><span>  reizist<span style=color:#f92672>-</span>stocks.market.companies
+</span></span><span style=display:flex><span><span style=color:#66d9ef>ON</span>
+</span></span><span style=display:flex><span>  companies.code <span style=color:#f92672>=</span> <span style=color:#66d9ef>result</span>.code
+</span></span></code></pre></div><pre tabindex=0><code>name	code	first_value	last_value	diff	growth_rate
 ＷｉｓｄｏｍＴｒｅｅ　ガソリン上場投資信託	1691	2074.7142857142862	2712.125	637.4107142857138	0.30722818976795396
 ＮＥＸＴ　ＮＯＴＥＳ　ドバイ原油先物　ダブル・ブル　ＥＴＮ	2038	327.7894736842105	479.1111111111111	151.32163742690057	0.46164276029401263
 国際石油開発帝石	1605	614.2105263157894	802.1111111111111	187.90058479532172	0.30592211749024106
@@ -275,20 +79,12 @@ ON
 エスクリ	2196	308.15789473684214	482.8888888888889	174.73099415204678	0.5670177436189391
 ルネサンス	2378	905.8947368421052	1180.888888888889	274.9941520467837	0.30356082319828553
 ワールドホールディングス	2429	1910.2631578947369	2583.777777777778	673.514619883041	0.3525768777456338
-</code></pre>
-
-<p>前日比の値上がり率とかだと <a href="https://info.finance.yahoo.co.jp/ranking/?kd=1&amp;tm=d&amp;mk=1">https://info.finance.yahoo.co.jp/ranking/?kd=1&amp;tm=d&amp;mk=1</a> で見れたりするけど、
+</code></pre><p>前日比の値上がり率とかだと <a href="https://info.finance.yahoo.co.jp/ranking/?kd=1&amp;tm=d&amp;mk=1">https://info.finance.yahoo.co.jp/ranking/?kd=1&amp;tm=d&amp;mk=1</a> で見れたりするけど、
 前月比とか年単位の上昇幅みたいなデータはどこから参照するのがいいのかな。
-日足チャートからこねくり回しているのは効率悪いことをしているんだろうなあという自覚はある。</p>
-
-<p>また、こういうデータを出してみて、例えば「おっクルーズ買いか？」と思い <a href="https://stocks.finance.yahoo.co.jp/stocks/detail/?code=2138.T&amp;d=3m">https://stocks.finance.yahoo.co.jp/stocks/detail/?code=2138.T&amp;d=3m</a> を見に行ったりすると2月中旬にはねていて3月は横ばいが続いているので、今から買っていいかどうか、はこのデータからだけではわからない。
+日足チャートからこねくり回しているのは効率悪いことをしているんだろうなあという自覚はある。</p><p>また、こういうデータを出してみて、例えば「おっクルーズ買いか？」と思い <a href="https://stocks.finance.yahoo.co.jp/stocks/detail/?code=2138.T&amp;d=3m">https://stocks.finance.yahoo.co.jp/stocks/detail/?code=2138.T&amp;d=3m</a> を見に行ったりすると2月中旬にはねていて3月は横ばいが続いているので、今から買っていいかどうか、はこのデータからだけではわからない。
 日足チャートから適切なSQLを吐いて売買イベントのトリガーにあわよくばできないか考えたけどダメそう。
-んー。テクニカル分析について勉強するか</p>
-
-<p>2021/03/17 追記。
-全銘柄のデータが出揃ったので同じSQLを実行しておいた。</p>
-
-<pre><code>name	code	first_value	last_value	diff	growth_rate
+んー。テクニカル分析について勉強するか</p><p>2021/03/17 追記。
+全銘柄のデータが出揃ったので同じSQLを実行しておいた。</p><pre tabindex=0><code>name	code	first_value	last_value	diff	growth_rate
 ＩＮＣＬＵＳＩＶＥ	7078	937.1052631578947	4067.0	3129.8947368421054	3.339960685200787
 ＣＡＩＣＡ	2315	17.263157894736842	58.333333333333336	41.07017543859649	2.3790650406504064
 アジア開発キャピタル	9318	6.578947368421052	18.4	11.821052631578947	1.7968000000000002
@@ -309,149 +105,49 @@ ON
 ジオマテック	6907	550.1052631578946	921.8	371.6947368421054	0.67567929582855
 ツクイホールディングス	2398	557.5789473684212	922.3333333333334	364.7543859649122	0.6541753193631613
 メタップス	6172	748.736842105263	1226.3	477.56315789473695	0.637825108955434
-</code></pre>
-
-<p>これだけで売買の意思決定はできないけど気になる銘柄の参考にはなりそう</p>
-
-<p>補足: 日足チャートのBQスキーマ情報。</p>
-
-<pre><code>[
+</code></pre><p>これだけで売買の意思決定はできないけど気になる銘柄の参考にはなりそう</p><p>補足: 日足チャートのBQスキーマ情報。</p><pre tabindex=0><code>[
   {
-    &quot;mode&quot;: &quot;REQUIRED&quot;,
-    &quot;name&quot;: &quot;code&quot;,
-    &quot;type&quot;: &quot;STRING&quot;
+    &#34;mode&#34;: &#34;REQUIRED&#34;,
+    &#34;name&#34;: &#34;code&#34;,
+    &#34;type&#34;: &#34;STRING&#34;
   },
   {
-    &quot;mode&quot;: &quot;REQUIRED&quot;,
-    &quot;name&quot;: &quot;date&quot;,
-    &quot;type&quot;: &quot;STRING&quot;
+    &#34;mode&#34;: &#34;REQUIRED&#34;,
+    &#34;name&#34;: &#34;date&#34;,
+    &#34;type&#34;: &#34;STRING&#34;
   },
   {
-    &quot;mode&quot;: &quot;REQUIRED&quot;,
-    &quot;name&quot;: &quot;opening&quot;,
-    &quot;type&quot;: &quot;INTEGER&quot;
+    &#34;mode&#34;: &#34;REQUIRED&#34;,
+    &#34;name&#34;: &#34;opening&#34;,
+    &#34;type&#34;: &#34;INTEGER&#34;
   },
   {
-    &quot;mode&quot;: &quot;REQUIRED&quot;,
-    &quot;name&quot;: &quot;high&quot;,
-    &quot;type&quot;: &quot;INTEGER&quot;
+    &#34;mode&#34;: &#34;REQUIRED&#34;,
+    &#34;name&#34;: &#34;high&#34;,
+    &#34;type&#34;: &#34;INTEGER&#34;
   },
   {
-    &quot;mode&quot;: &quot;REQUIRED&quot;,
-    &quot;name&quot;: &quot;low&quot;,
-    &quot;type&quot;: &quot;INTEGER&quot;
+    &#34;mode&#34;: &#34;REQUIRED&#34;,
+    &#34;name&#34;: &#34;low&#34;,
+    &#34;type&#34;: &#34;INTEGER&#34;
   },
   {
-    &quot;mode&quot;: &quot;REQUIRED&quot;,
-    &quot;name&quot;: &quot;finish&quot;,
-    &quot;type&quot;: &quot;INTEGER&quot;
+    &#34;mode&#34;: &#34;REQUIRED&#34;,
+    &#34;name&#34;: &#34;finish&#34;,
+    &#34;type&#34;: &#34;INTEGER&#34;
   },
   {
-    &quot;mode&quot;: &quot;REQUIRED&quot;,
-    &quot;name&quot;: &quot;turnover&quot;,
-    &quot;type&quot;: &quot;INTEGER&quot;
+    &#34;mode&#34;: &#34;REQUIRED&#34;,
+    &#34;name&#34;: &#34;turnover&#34;,
+    &#34;type&#34;: &#34;INTEGER&#34;
   }
 ]
-</code></pre></article>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-</div>
-<script>
- 
- 
- 
- window.onload = function () {
-   const header = document.getElementById('post-header');
-   const headerHeight = header.offsetHeight;
-   
-   document.documentElement.style.scrollPaddingTop = headerHeight + 10 + "px";
- }
-
- const tocToggleButton = document.getElementById("toc-toggle");
-
- const tippyInstance = tippy('#toc-toggle', {
-  trigger: 'click',
-  content: '<div id="table-of-contents">\x3cnav id=\x22TableOfContents\x22\x3e\n\x3cul\x3e\n\x3cli\x3e\n\x3cul\x3e\n\x3cli\x3e\n\x3cul\x3e\n\x3cli\x3e\x3ca href=\x22#2021年年始から30-以上伸びている銘柄\x22\x3e2021年年始から30%以上伸びている銘柄\x3c\/a\x3e\x3c\/li\x3e\n\x3c\/ul\x3e\x3c\/li\x3e\n\x3c\/ul\x3e\x3c\/li\x3e\n\x3c\/ul\x3e\n\x3c\/nav\x3e</div>',
-  allowHTML: true,
-  placement: 'bottom-start',
-  interactive: true,
-  arrow: false,
-  maxWidth: "none",
-  onHide: function () { tocToggleButton.classList.remove("hover"); },
-  onShow: function () { tocToggleButton.classList.add("hover"); },
-  onShown: function () {
-    selectTableOfContentsOption();
-
-    if (window.hasSetupTableOfContentsListeners) {
-      return;
-    }
-
-    const tableOfContents = document.getElementById("table-of-contents");
-    tableOfContents.addEventListener('click', function () {
-      
-      tippyInstance[0].hide();
-    });
-
-    window.hasSetupTableOfContentsListeners = true;
-  }
- });
-
- function selectTableOfContentsOption () {
-   const optionSelectedClass = 'table-of-contents-option-selected';
-
-   const tableOfContentsOptions = document.querySelectorAll("#table-of-contents > nav > ul li");
-
-   for (const option of tableOfContentsOptions) {
-     
-
-     const [child] = option.children;
-     if (child.tagName.toLowerCase() !== 'a') {
-       continue;
-     }
-
-     if (window.location.href === child.href) {
-       child.classList.add(optionSelectedClass);
-     } else {
-       child.classList.remove(optionSelectedClass);
-     }
-   }
- }
-
- window.onhashchange = selectTableOfContentsOption;
-</script>
-
-
-  <div class="footer container-xl width-full p-responsive">
-  <div
-    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
-    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="https://blog.reizist.com/">
-      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
-        <path fill-rule="evenodd"
-          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
-        </path>
-      </svg>
-    </a>
-    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
-      
-      <li class="mr-3 mr-lg-0">Theme by <a href='https://github.com/MeiK2333/github-style'>github-style</a></li>
-      
-    </ul>
-  </div>
-  <div class="d-flex flex-justify-center pb-6">
-    <span class="f6 text-gray-light"></span>
-  </div>
-
-
-</div>
-</body>
-
-<script type="application/javascript" src="https://blog.reizist.com/js/github-style.js"></script>
-
-
-
-</html>
+</code></pre></article></div></div></div></div></div></div></main></div><script>window.onload=function(){const e=document.getElementById("post-header"),t=e.offsetHeight;document.documentElement.style.scrollPaddingTop=t+10+"px"};const tocToggleButton=document.getElementById("toc-toggle"),tippyInstance=tippy("#toc-toggle",{trigger:"click",content:`<div id="table-of-contents"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#2021年年始から30以上伸びている銘柄">2021年年始から30%以上伸びている銘柄</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>`,allowHTML:!0,placement:"bottom-start",interactive:!0,arrow:!1,maxWidth:"none",onHide:function(){tocToggleButton.classList.remove("hover")},onShow:function(){tocToggleButton.classList.add("hover")},onShown:function(){if(selectTableOfContentsOption(),window.hasSetupTableOfContentsListeners)return;const e=document.getElementById("table-of-contents");e.addEventListener("click",function(){tippyInstance[0].hide()}),window.hasSetupTableOfContentsListeners=!0}});function selectTableOfContentsOption(){const e="table-of-contents-option-selected",t=document.querySelectorAll("#table-of-contents > nav > ul li");for(const s of t){const[n]=s.children;if(n.tagName.toLowerCase()!=="a")continue;window.location.href===n.href?n.classList.add(e):n.classList.remove(e)}}window.onhashchange=selectTableOfContentsOption</script><div class="footer container-xl width-full p-responsive"><div class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light"><a aria-label=Homepage title=GitHub class="footer-octicon d-none d-lg-block mr-lg-4" href=https://blog.reizist.com/><svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" width="24"><path fill-rule="evenodd" d="M8 0C3.58.0.0 3.58.0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38.0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95.0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12.0.0.67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15.0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48.0 1.07-.01 1.93-.01 2.2.0.21.15.46.55.38A8.013 8.013.0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a><ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0"><li class="mr-3 mr-lg-0">Theme by <a href=https://github.com/MeiK2333/github-style>github-style</a></li></ul></div><div class="d-flex flex-justify-center pb-6"><span class="f6 text-gray-light"></span></div></div></body><script type=application/javascript src=https://blog.reizist.com/js/github-style.js></script></html>

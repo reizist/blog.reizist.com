@@ -1,444 +1,125 @@
-<!DOCTYPE html>
-<html lang="jp">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <script type="application/javascript" src='https://blog.reizist.com/js/theme-mode.js'></script>
-    <link rel="stylesheet" href='https://blog.reizist.com/css/frameworks.min.css' />
-    <link rel="stylesheet" href='https://blog.reizist.com/css/github.min.css' />
-    <link rel="stylesheet" href='https://blog.reizist.com/css/github-style.css' />
-    <link rel="stylesheet" href='https://blog.reizist.com/css/light.css' />
-    <link rel="stylesheet" href='https://blog.reizist.com/css/dark.css' />
-    <link rel="stylesheet" href='https://blog.reizist.com/css/syntax.css' />
-    <title>test coverageをcircleciでoutputするようにした - reizist&#39;s memo</title>
-    
-    <link rel="icon" type="image/x-icon" href='https://blog.reizist.com/images/favicon.ico'>
-    
-    <meta name="theme-color" content="#1e2327">
-
-    
-    <meta name="description"
-  content="test coverageをcircleciでoutputするようにした。
-" />
-<meta name="keywords"
-  content='' />
-<meta name="robots" content="noodp" />
-<link rel="canonical" href="https://blog.reizist.com/post/output-coverage-slack/" />
-
-
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="test coverageをcircleciでoutputするようにした - reizist&#39;s memo" />
-<meta name="twitter:description"
-  content="test coverageをcircleciでoutputするようにした。
-" />
-<meta name="twitter:site" content="https://blog.reizist.com/" />
-<meta name="twitter:creator" content="" />
-<meta name="twitter:image"
-  content="https://blog.reizist.com/">
-
-
-<meta property="og:type" content="article" />
-<meta property="og:title" content="test coverageをcircleciでoutputするようにした - reizist&#39;s memo">
-<meta property="og:description"
-  content="test coverageをcircleciでoutputするようにした。
-" />
-<meta property="og:url" content="https://blog.reizist.com/post/output-coverage-slack/" />
-<meta property="og:site_name" content="test coverageをcircleciでoutputするようにした" />
-<meta property="og:image"
-  content="https://blog.reizist.com/">
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
-
-<meta property="article:published_time" content="2018-11-08 02:17:00 &#43;0900 &#43;0900" />
-
-
-
-
-
-
-
-
-
-
-
-
-</head>
-
-<body>
-  <div style="position: relative">
-  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
-    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
-      <a class="Header-link" href="https://blog.reizist.com/">
-        <svg class="octicon" height="32" viewBox="0 0 16 16" version="1.1" width="32">
-          <path fill-rule="evenodd"
-            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
-          </path>
-        </svg>
-      </a>
-    </div>
-    <div class="Header-item d-md-none">
-      <button class="Header-link btn-link js-details-target" type="button"
-        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
-        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
-          <path fill-rule="evenodd"
-            d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
-          </path>
-        </svg>
-      </button>
-    </div>
-    <div style="display: none;" id="header-search"
-      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
-      <div
-        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
-        <div class="position-relative">
-          <form target="_blank" action="https://www.google.com/search" accept-charset="UTF-8" method="get"
-            autocomplete="off">
-            <label
-              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
-              <input type="text"
-                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
-                name="q" value="" placeholder="Search" autocomplete="off">
-              <input type="hidden" name="q" value="site:https://blog.reizist.com/">
-            </label>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
-      <a class="Header-link " href="https://blog.reizist.com/">
-        <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1"
-          width="32">
-          <path fill-rule="evenodd"
-            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
-          </path>
-        </svg>
-      </a>
-    </div>
-    <div class="Header-item" style="margin-right: 0;">
-      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
-        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
-          version="1.1" width="16" height="16">
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
-          </path>
-        </svg>
-      </a>
-    </div>
-  </header>
-</div>
-  
-<script src="https://unpkg.com/@popperjs/core@2"></script>
-<script src="https://unpkg.com/tippy.js@6"></script>
-<div>
-  <main>
-    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
-      <div class="px-0">
-        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
-          <div class="flex-auto min-width-0 width-fit mr-3">
-            <div class="d-flex">
-              <div class="d-none d-md-block">
-                <a class="avatar mr-2 flex-shrink-0" href="https://blog.reizist.com/">
-                  <img class=" avatar-user"
-                    src="https://blog.reizist.com/images/avatar.png"
-                    width="32" height="32"></a>
-              </div>
-              <div class="d-flex flex-column">
-                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
-                  <span class="author">
-                    <a href="https://blog.reizist.com/">reizist</a></span><span
-                    class="path-divider">/</span><strong class="css-truncate-target mr-1" style="max-width: 410px"><a
-                      href="https://blog.reizist.com/post/output-coverage-slack/">test coverageをcircleciでoutputするようにした</a></strong>
-                </h1>
-                <div class="note m-0">
-                  Created <relative-time datetime="Thu, 08 Nov 2018 02:17:00 &#43;0900"
-                    class="no-wrap">
-                    Thu, 08 Nov 2018 02:17:00 &#43;0900</relative-time>
-
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container-lg px-3 new-discussion-timeline">
-      <div class="repository-content gist-content">
-        <div>
-          <div class="js-gist-file-update-container js-task-list-container file-box">
-            <div id="file-pytest" class="file my-2">
-              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header">
-                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
-                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
-                    
-                    <summary id="toc-toggle" class="btn btn-octicon m-0 mr-2 p-2" aria-haspopup="menu" aria-label="Table of Contents" role="button">
-                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
-                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
-                      </svg>
-                    </summary>
-                          1148 Words
-                    
-
-                  </div>
-                  <div class="file-actions flex-order-2 pt-0">
-                    
-                  </div>
-                </div>
-              </div>
-
-
-              <div class="Box-body px-5 pb-5">
-                <article class="markdown-body entry-content container-lg"><p>test coverageをcircleciでoutputするようにした。</p>
-
-<p>所属チームの他のコンポーネントでテスト的に無料枠のCodecovを使っていて、
+<!doctype html><html lang=jp><head><meta charset=utf-8><meta name=viewport content="width=device-width"><script type=application/javascript src=https://blog.reizist.com/js/theme-mode.js></script>
+<link rel=stylesheet href=https://blog.reizist.com/css/frameworks.min.css><link rel=stylesheet href=https://blog.reizist.com/css/github.min.css><link rel=stylesheet href=https://blog.reizist.com/css/github-style.css><link rel=stylesheet href=https://blog.reizist.com/css/light.css><link rel=stylesheet href=https://blog.reizist.com/css/dark.css><link rel=stylesheet href=https://blog.reizist.com/css/syntax.css><title>test coverageをcircleciでoutputするようにした - reizist's memo</title><link rel=icon type=image/x-icon href=https://blog.reizist.com/images/favicon.ico><meta name=theme-color content="#1e2327"><meta name=description content="test coverageをcircleciでoutputするようにした。
+"><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=https://blog.reizist.com/post/output-coverage-slack/><meta name=twitter:card content="summary"><meta name=twitter:title content="test coverageをcircleciでoutputするようにした - reizist's memo"><meta name=twitter:description content="test coverageをcircleciでoutputするようにした。
+"><meta name=twitter:site content="https://blog.reizist.com/"><meta name=twitter:creator content><meta name=twitter:image content="https://blog.reizist.com/"><meta property="og:type" content="article"><meta property="og:title" content="test coverageをcircleciでoutputするようにした - reizist's memo"><meta property="og:description" content="test coverageをcircleciでoutputするようにした。
+"><meta property="og:url" content="https://blog.reizist.com/post/output-coverage-slack/"><meta property="og:site_name" content="test coverageをcircleciでoutputするようにした"><meta property="og:image" content="https://blog.reizist.com/"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2018-11-08 02:17:00 +0900 +0900"></head><body><div style=position:relative><header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on"><div class="Header-item mobile-none" style=margin-top:-4px;margin-bottom:-4px><a class=Header-link href=https://blog.reizist.com/><svg class="octicon" height="32" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58.0.0 3.58.0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38.0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95.0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12.0.0.67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15.0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48.0 1.07-.01 1.93-.01 2.2.0.21.15.46.55.38A8.013 8.013.0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a></div><div class="Header-item d-md-none"><button class="Header-link btn-link js-details-target" type=button onclick='document.querySelector("#header-search").style.display=document.querySelector("#header-search").style.display=="none"?"block":"none"'><svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" width="24"><path fill-rule="evenodd" d="M1 2.75A.75.75.0 011.75 2h12.5a.75.75.0 110 1.5H1.75A.75.75.0 011 2.75zm0 5A.75.75.0 011.75 7h12.5a.75.75.0 110 1.5H1.75A.75.75.0 011 7.75zM1.75 12a.75.75.0 100 1.5h12.5a.75.75.0 100-1.5H1.75z"/></svg></button></div><div style=display:none id=header-search class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex"><div class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to"><div class=position-relative><form target=_blank action=https://www.google.com/search accept-charset=utf-8 method=get autocomplete=off><label class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center"><input type=text class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable" name=q placeholder=Search autocomplete=off>
+<input type=hidden name=q value=site:https://blog.reizist.com/></label></form></div></div></div><div class="Header-item Header-item--full flex-justify-center d-md-none position-relative"><a class=Header-link href=https://blog.reizist.com/><svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58.0.0 3.58.0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38.0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95.0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12.0.0.67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15.0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48.0 1.07-.01 1.93-.01 2.2.0.21.15.46.55.38A8.013 8.013.0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a></div><div class=Header-item style=margin-right:0><a href=javascript:void(0) class="Header-link no-select" onclick=switchTheme()><svg style="fill:var(--color-profile-color-modes-toggle-moon)" class="no-select" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.52208 7.71754c3.05612.0 5.53362-2.47748 5.53362-5.5336C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961 9.95801 1.07727 10.3495.771159 10.6474.99992c1.4679 1.12724 2.4141 2.90007 2.4141 4.89391.0 3.40575-2.7609 6.16667-6.16665 6.16667-2.94151.0-5.40199-2.0595-6.018122-4.81523C.794841 6.87902 1.23668 6.65289 1.55321 6.85451 2.41106 7.40095 3.4296 7.71754 4.52208 7.71754z"/></svg></a></div></header></div><script src=https://unpkg.com/@popperjs/core@2></script>
+<script src=https://unpkg.com/tippy.js@6></script><div><main><div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4"><div class=px-0><div class="mb-3 d-flex px-3 px-md-3 px-lg-5"><div class="flex-auto min-width-0 width-fit mr-3"><div class=d-flex><div class="d-none d-md-block"><a class="avatar mr-2 flex-shrink-0" href=https://blog.reizist.com/><img class=avatar-user src=https://blog.reizist.com/images/avatar.png width=32 height=32></a></div><div class="d-flex flex-column"><h1 class="break-word f3 text-normal mb-md-0 mb-1"><span class=author><a href=https://blog.reizist.com/>reizist</a></span><span class=path-divider>/</span><strong class="css-truncate-target mr-1" style=max-width:410px><a href=https://blog.reizist.com/post/output-coverage-slack/>test coverageをcircleciでoutputするようにした</a></strong></h1><div class="note m-0">Created <relative-time datetime="Thu, 08 Nov 2018 02:17:00 +0900" class=no-wrap>Thu, 08 Nov 2018 02:17:00 +0900</relative-time></div></div></div></div></div></div></div><div class="container-lg px-3 new-discussion-timeline"><div class="repository-content gist-content"><div><div class="js-gist-file-update-container js-task-list-container file-box"><div id=file-pytest class="file my-2"><div id=post-header class="file-header d-flex flex-md-items-center flex-items-start sticky-header"><div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto"><div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0"><summary id=toc-toggle class="btn btn-octicon m-0 mr-2 p-2" aria-haspopup=menu aria-label="Table of Contents" role=button><svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered"><path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75.0 000 1.5h8.5a.75.75.0 000-1.5h-8.5zm0 5a.75.75.0 000 1.5h8.5a.75.75.0 000-1.5h-8.5zm0 5a.75.75.0 000 1.5h8.5a.75.75.0 000-1.5h-8.5zM3 8A1 1 0 111 8a1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"/></svg></summary>1148 Words</div><div class="file-actions flex-order-2 pt-0"></div></div></div><div class="Box-body px-5 pb-5"><article class="markdown-body entry-content container-lg"><p>test coverageをcircleciでoutputするようにした。</p><p>所属チームの他のコンポーネントでテスト的に無料枠のCodecovを使っていて、
 自分がメインで見ているrailsプロダクトにもcoverageを意識的に見る文化を取り入れたいと思ったものの
-Codecovを最初から有料枠にするのも気が引けたので無料でできる範囲から。</p>
-
-<p>やったことはほぼ <a href="https://qiita.com/u-minor/items/c18f0f03a9255f9e5231">https://qiita.com/u-minor/items/c18f0f03a9255f9e5231</a> の通りで、</p>
-
-<p>多少アレンジしている。
-circleciでの設定はrun section追加するだけで、プロジェクトの <code>bin/</code> に放り込んだshell scriptを実行しているだけ。</p>
-
-<pre><code class="language-yml:config.yml">- run:
-    name: Post coverage
-    command: bin/post-coverage-to-slack
-</code></pre>
-
-<pre><code class="language-sh">###
-# original: https://gist.githubusercontent.com/u-minor/8cb27fa9c04163142ebd/raw/circleci-coverage-slack
-# Post coverage rate to Slack
-#
-# Usage: bash circleci-coverage-slack.sh [cobertura|jacoco]
-#
-# Required environment variables:
-#
-# - CIRCLE_TOKEN: project-specific readonly API token (need to access build artifacts for others)
-# - SLACK_ENDPOINT: Slack endpoint url
-# - COVERAGE_FILE: coverage xml filename (default: coverage.xml)
-# - MAX_BUILD_HISTORY: max history num to fetch old rate (default: 5)
-#
-
-function calcCoberturaRate() {
-  local rate=$(ruby -r &quot;rexml/document&quot; -e '
-node = REXML::XPath.first(REXML::Document.new(STDIN.read), &quot;coverage&quot;)
-puts &quot;%.2f&quot; % (node.attributes[&quot;line-rate&quot;].to_f * 100)
-')
-  [ &quot;$rate&quot; == &quot;100.00&quot; ] &amp;&amp; rate=100
-  echo $rate
-}
-
-function calcJacocoRate() {
-  local rate=$(ruby -r &quot;rexml/document&quot; -e '
-node = REXML::XPath.first(REXML::Document.new(STDIN.read), &quot;report/counter[@type=\&quot;LINE\&quot;]&quot;)
-missed = node.attributes[&quot;missed&quot;].to_f
-covered = node.attributes[&quot;covered&quot;].to_f
-puts &quot;%.2f&quot; % (covered / (covered + missed) * 100)
-')
-  [ &quot;$rate&quot; == &quot;100.00&quot; ] &amp;&amp; rate=100
-  echo $rate
-}
-
-function calcRate() {
-  case &quot;$coverage_type&quot; in
-    &quot;cobertura&quot; )
-      calcCoberturaRate
-      ;;
-    &quot;jacoco&quot; )
-      calcJacocoRate
-      ;;
-  esac
-}
-
-coverage_type=${1:-cobertura}
-coverage=$(find $CIRCLE_ARTIFACTS -type f | grep ${COVERAGE_FILE:-coverage.xml})
-url_base=&quot;https://circleci.com/api/v1/project/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}&quot;
-
-## calculate rates
-rate_new=$(cat $coverage | calcRate)
-rate_old=0
-for build_num in $(echo $CIRCLE_PREVIOUS_BUILD_NUM; seq $(expr $CIRCLE_BUILD_NUM - 1) -1 1 | head -n ${MAX_BUILD_HISTORY:-5}); do
-  echo &quot;fetching coverage info for build:${build_num} ...&quot;
-  artifacts=&quot;${url_base}/${build_num}/artifacts&quot;
-  [ -n &quot;$CIRCLE_TOKEN&quot; ] &amp;&amp; artifacts=&quot;${artifacts}?circle-token=${CIRCLE_TOKEN}&quot;
-  coverage=$(curl -s -H 'Accept: application/json' $artifacts | jq -r '.[].url' | grep ${COVERAGE_FILE:-coverage.xml})
-  coverage_html=$(curl -s -H 'Accept: application/json' $artifacts | jq -r '.[].url' | grep index.html)
-  [ -n &quot;$coverage&quot; ] &amp;&amp; break
-done
-if [ -n &quot;$coverage&quot; ]; then
-  [ -n &quot;$CIRCLE_TOKEN&quot; ] &amp;&amp; coverage=&quot;${coverage}?circle-token=${CIRCLE_TOKEN}&quot;
-  rate_old=$(curl -s $coverage | calcRate)
-fi
-
-## construct messages
-author=$(git log --format='%an &lt;%ae&gt;' -1 | sed 's/\\/\\\\/g;s/\&quot;/\\&quot;/g')
-log=$(git log --format=%s -1 | sed 's/\\/\\\\/g;s/\&quot;/\\&quot;/g')
-mode=$(ruby -e 'puts (ARGV[0].to_f &lt;=&gt; ARGV[1].to_f) + 1' -- $rate_new $rate_old)
-mes=(&quot;DECREASED&quot; &quot;NOT CHANGED&quot; &quot;INCREASED&quot;)
-color=(&quot;danger&quot; &quot;#a0a0a0&quot; &quot;good&quot;)
-cat &gt; .slack_payload &lt;&lt;_EOT_
-{
-  &quot;attachments&quot;: [
-    {
-      &quot;fallback&quot;: &quot;Coverage ${mes[$mode]} (${rate_new}%)&quot;,
-      &quot;text&quot;: &quot;*${mes[$mode]}* (${rate_old}% -&gt; ${rate_new}%) &lt;${coverage_html}&gt;&quot;,
-      &quot;pretext&quot;: &quot;Coverage report: &lt;https://circleci.com/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BUILD_NUM}|#${CIRCLE_BUILD_NUM}&gt; &lt;https://circleci.com/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}|${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}&gt; (&lt;https://circleci.com/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/tree/${CIRCLE_BRANCH}|${CIRCLE_BRANCH}&gt;)&quot;,
-      &quot;color&quot;: &quot;${color[$mode]}&quot;,
-      &quot;mrkdwn_in&quot;: [&quot;pretext&quot;, &quot;text&quot;, &quot;fields&quot;],
-      &quot;fields&quot;: [
-        {
-          &quot;value&quot;: &quot;Commit: &lt;https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}|${CIRCLE_SHA1}&gt;&quot;,
-          &quot;short&quot;: false
-        },
-        {
-          &quot;value&quot;: &quot;Author: ${author}&quot;,
-          &quot;short&quot;: false
-        },
-        {
-          &quot;value&quot;: &quot;${log}&quot;,
-          &quot;short&quot;: false
-        }
-      ]
-    }
-  ]
-}
-_EOT_
-
-## post to slack
-curl -s --data-urlencode payload@.slack_payload ${SLACK_ENDPOINT}
-rm .slack_payload
-</code></pre>
-
-<p>変更したのは1点で、corbetura formatとは別にhtml formatも出力するようにしておいて、circleciのattachmentにlinkを追加している。
-今まではsimplecov というgemを使ってcircleciでartifactとしてuploadするのみだったので、実際にgithubで開発をしていると、</p>
-
-<ol>
-<li>github pushするとintegrationによりcircleci buildが実行される</li>
-<li>build完了時、PRにその結果が通知される</li>
-<li>通知されたpostからcircleciのリンクをたどり該当のbuild結果からartifactのタブを選択</li>
-<li>該当のhtmlをクリック</li>
-</ol>
-
-<p>という手順が必要で、何が言いたいかというとcoverageの詳細を確認する手順が多かった。</p>
-
-<p>少しでもアクセスしにくいと感じると人間は低きに流れるのでチェックする習慣は無くなってしまうと思う。</p>
-
-<p>のでpercentage of coverageをpostしcoverageを意識させつつ詳細を見やすくした、というのが今回の対応です。</p>
-
-<p>尚このためにsimplecovの設定としてはMultiFormatterを使っていて</p>
-
-<pre><code class="language-rb">require 'simplecov'
-require 'simplecov-cobertura'
-
-SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new(
-  [
-    SimpleCov::Formatter::HTMLFormatter,
-    SimpleCov::Formatter::CoberturaFormatter
-  ]
-)
-</code></pre>
-
-<p>によってcorbeturaとhtmlを <code>coverage/</code> に出力している。</p></article>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-</div>
-<script>
- 
- 
- 
- window.onload = function () {
-   const header = document.getElementById('post-header');
-   const headerHeight = header.offsetHeight;
-   
-   document.documentElement.style.scrollPaddingTop = headerHeight + 10 + "px";
- }
-
- const tocToggleButton = document.getElementById("toc-toggle");
-
- const tippyInstance = tippy('#toc-toggle', {
-  trigger: 'click',
-  content: '<div id="table-of-contents"></div>',
-  allowHTML: true,
-  placement: 'bottom-start',
-  interactive: true,
-  arrow: false,
-  maxWidth: "none",
-  onHide: function () { tocToggleButton.classList.remove("hover"); },
-  onShow: function () { tocToggleButton.classList.add("hover"); },
-  onShown: function () {
-    selectTableOfContentsOption();
-
-    if (window.hasSetupTableOfContentsListeners) {
-      return;
-    }
-
-    const tableOfContents = document.getElementById("table-of-contents");
-    tableOfContents.addEventListener('click', function () {
-      
-      tippyInstance[0].hide();
-    });
-
-    window.hasSetupTableOfContentsListeners = true;
-  }
- });
-
- function selectTableOfContentsOption () {
-   const optionSelectedClass = 'table-of-contents-option-selected';
-
-   const tableOfContentsOptions = document.querySelectorAll("#table-of-contents > nav > ul li");
-
-   for (const option of tableOfContentsOptions) {
-     
-
-     const [child] = option.children;
-     if (child.tagName.toLowerCase() !== 'a') {
-       continue;
-     }
-
-     if (window.location.href === child.href) {
-       child.classList.add(optionSelectedClass);
-     } else {
-       child.classList.remove(optionSelectedClass);
-     }
-   }
- }
-
- window.onhashchange = selectTableOfContentsOption;
-</script>
-
-
-  <div class="footer container-xl width-full p-responsive">
-  <div
-    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
-    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="https://blog.reizist.com/">
-      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
-        <path fill-rule="evenodd"
-          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
-        </path>
-      </svg>
-    </a>
-    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
-      
-      <li class="mr-3 mr-lg-0">Theme by <a href='https://github.com/MeiK2333/github-style'>github-style</a></li>
-      
-    </ul>
-  </div>
-  <div class="d-flex flex-justify-center pb-6">
-    <span class="f6 text-gray-light"></span>
-  </div>
-
-
-</div>
-</body>
-
-<script type="application/javascript" src="https://blog.reizist.com/js/github-style.js"></script>
-
-
-
-</html>
+Codecovを最初から有料枠にするのも気が引けたので無料でできる範囲から。</p><p>やったことはほぼ <a href=https://qiita.com/u-minor/items/c18f0f03a9255f9e5231>https://qiita.com/u-minor/items/c18f0f03a9255f9e5231</a> の通りで、</p><p>多少アレンジしている。
+circleciでの設定はrun section追加するだけで、プロジェクトの <code>bin/</code> に放り込んだshell scriptを実行しているだけ。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml:config.yml data-lang=yml:config.yml><span style=display:flex><span>- <span style=color:#f92672>run</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Post coverage</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>command</span>: <span style=color:#ae81ff>bin/post-coverage-to-slack</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e>###</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># original: https://gist.githubusercontent.com/u-minor/8cb27fa9c04163142ebd/raw/circleci-coverage-slack</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Post coverage rate to Slack</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Usage: bash circleci-coverage-slack.sh [cobertura|jacoco]</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Required environment variables:</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># - CIRCLE_TOKEN: project-specific readonly API token (need to access build artifacts for others)</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># - SLACK_ENDPOINT: Slack endpoint url</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># - COVERAGE_FILE: coverage xml filename (default: coverage.xml)</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># - MAX_BUILD_HISTORY: max history num to fetch old rate (default: 5)</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> calcCoberturaRate<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  local rate<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>ruby -r <span style=color:#e6db74>&#34;rexml/document&#34;</span> -e <span style=color:#e6db74>&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>node = REXML::XPath.first(REXML::Document.new(STDIN.read), &#34;coverage&#34;)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>puts &#34;%.2f&#34; % (node.attributes[&#34;line-rate&#34;].to_f * 100)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>&#39;</span><span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;</span>$rate<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;100.00&#34;</span> <span style=color:#f92672>]</span> <span style=color:#f92672>&amp;&amp;</span> rate<span style=color:#f92672>=</span><span style=color:#ae81ff>100</span>
+</span></span><span style=display:flex><span>  echo $rate
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> calcJacocoRate<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  local rate<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>ruby -r <span style=color:#e6db74>&#34;rexml/document&#34;</span> -e <span style=color:#e6db74>&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>node = REXML::XPath.first(REXML::Document.new(STDIN.read), &#34;report/counter[@type=\&#34;LINE\&#34;]&#34;)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>missed = node.attributes[&#34;missed&#34;].to_f
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>covered = node.attributes[&#34;covered&#34;].to_f
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>puts &#34;%.2f&#34; % (covered / (covered + missed) * 100)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>&#39;</span><span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;</span>$rate<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;100.00&#34;</span> <span style=color:#f92672>]</span> <span style=color:#f92672>&amp;&amp;</span> rate<span style=color:#f92672>=</span><span style=color:#ae81ff>100</span>
+</span></span><span style=display:flex><span>  echo $rate
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> calcRate<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>case</span> <span style=color:#e6db74>&#34;</span>$coverage_type<span style=color:#e6db74>&#34;</span> in
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;cobertura&#34;</span> <span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>      calcCoberturaRate
+</span></span><span style=display:flex><span>      ;;
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;jacoco&#34;</span> <span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>      calcJacocoRate
+</span></span><span style=display:flex><span>      ;;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>esac</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>coverage_type<span style=color:#f92672>=</span><span style=color:#e6db74>${</span>1<span style=color:#66d9ef>:-</span>cobertura<span style=color:#e6db74>}</span>
+</span></span><span style=display:flex><span>coverage<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>find $CIRCLE_ARTIFACTS -type f | grep <span style=color:#e6db74>${</span>COVERAGE_FILE<span style=color:#66d9ef>:-</span>coverage.xml<span style=color:#e6db74>}</span><span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>url_base<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;https://circleci.com/api/v1/project/</span><span style=color:#e6db74>${</span>CIRCLE_PROJECT_USERNAME<span style=color:#e6db74>}</span><span style=color:#e6db74>/</span><span style=color:#e6db74>${</span>CIRCLE_PROJECT_REPONAME<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## calculate rates</span>
+</span></span><span style=display:flex><span>rate_new<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>cat $coverage | calcRate<span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>rate_old<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> build_num in <span style=color:#66d9ef>$(</span>echo $CIRCLE_PREVIOUS_BUILD_NUM; seq <span style=color:#66d9ef>$(</span>expr $CIRCLE_BUILD_NUM - 1<span style=color:#66d9ef>)</span> -1 <span style=color:#ae81ff>1</span> | head -n <span style=color:#e6db74>${</span>MAX_BUILD_HISTORY<span style=color:#66d9ef>:-</span>5<span style=color:#e6db74>}</span><span style=color:#66d9ef>)</span>; <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>  echo <span style=color:#e6db74>&#34;fetching coverage info for build:</span><span style=color:#e6db74>${</span>build_num<span style=color:#e6db74>}</span><span style=color:#e6db74> ...&#34;</span>
+</span></span><span style=display:flex><span>  artifacts<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>url_base<span style=color:#e6db74>}</span><span style=color:#e6db74>/</span><span style=color:#e6db74>${</span>build_num<span style=color:#e6db74>}</span><span style=color:#e6db74>/artifacts&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>[</span> -n <span style=color:#e6db74>&#34;</span>$CIRCLE_TOKEN<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>]</span> <span style=color:#f92672>&amp;&amp;</span> artifacts<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>artifacts<span style=color:#e6db74>}</span><span style=color:#e6db74>?circle-token=</span><span style=color:#e6db74>${</span>CIRCLE_TOKEN<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>  coverage<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>curl -s -H <span style=color:#e6db74>&#39;Accept: application/json&#39;</span> $artifacts | jq -r <span style=color:#e6db74>&#39;.[].url&#39;</span> | grep <span style=color:#e6db74>${</span>COVERAGE_FILE<span style=color:#66d9ef>:-</span>coverage.xml<span style=color:#e6db74>}</span><span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>  coverage_html<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>curl -s -H <span style=color:#e6db74>&#39;Accept: application/json&#39;</span> $artifacts | jq -r <span style=color:#e6db74>&#39;.[].url&#39;</span> | grep index.html<span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>[</span> -n <span style=color:#e6db74>&#34;</span>$coverage<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>]</span> <span style=color:#f92672>&amp;&amp;</span> break
+</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> -n <span style=color:#e6db74>&#34;</span>$coverage<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>[</span> -n <span style=color:#e6db74>&#34;</span>$CIRCLE_TOKEN<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>]</span> <span style=color:#f92672>&amp;&amp;</span> coverage<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>coverage<span style=color:#e6db74>}</span><span style=color:#e6db74>?circle-token=</span><span style=color:#e6db74>${</span>CIRCLE_TOKEN<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>  rate_old<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>curl -s $coverage | calcRate<span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## construct messages</span>
+</span></span><span style=display:flex><span>author<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>git log --format<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;%an &lt;%ae&gt;&#39;</span> -1 | sed <span style=color:#e6db74>&#39;s/\\/\\\\/g;s/\&#34;/\\&#34;/g&#39;</span><span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>log<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>git log --format<span style=color:#f92672>=</span>%s -1 | sed <span style=color:#e6db74>&#39;s/\\/\\\\/g;s/\&#34;/\\&#34;/g&#39;</span><span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>mode<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>ruby -e <span style=color:#e6db74>&#39;puts (ARGV[0].to_f &lt;=&gt; ARGV[1].to_f) + 1&#39;</span> -- $rate_new $rate_old<span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>mes<span style=color:#f92672>=(</span><span style=color:#e6db74>&#34;DECREASED&#34;</span> <span style=color:#e6db74>&#34;NOT CHANGED&#34;</span> <span style=color:#e6db74>&#34;INCREASED&#34;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>color<span style=color:#f92672>=(</span><span style=color:#e6db74>&#34;danger&#34;</span> <span style=color:#e6db74>&#34;#a0a0a0&#34;</span> <span style=color:#e6db74>&#34;good&#34;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>cat &gt; .slack_payload <span style=color:#e6db74>&lt;&lt;_EOT_
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>{
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#34;attachments&#34;: [
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    {
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &#34;fallback&#34;: &#34;Coverage ${mes[$mode]} (${rate_new}%)&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &#34;text&#34;: &#34;*${mes[$mode]}* (${rate_old}% -&gt; ${rate_new}%) &lt;${coverage_html}&gt;&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &#34;pretext&#34;: &#34;Coverage report: &lt;https://circleci.com/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BUILD_NUM}|#${CIRCLE_BUILD_NUM}&gt; &lt;https://circleci.com/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}|${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}&gt; (&lt;https://circleci.com/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/tree/${CIRCLE_BRANCH}|${CIRCLE_BRANCH}&gt;)&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &#34;color&#34;: &#34;${color[$mode]}&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &#34;mrkdwn_in&#34;: [&#34;pretext&#34;, &#34;text&#34;, &#34;fields&#34;],
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &#34;fields&#34;: [
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        {
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          &#34;value&#34;: &#34;Commit: &lt;https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}|${CIRCLE_SHA1}&gt;&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          &#34;short&#34;: false
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        },
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        {
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          &#34;value&#34;: &#34;Author: ${author}&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          &#34;short&#34;: false
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        },
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        {
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          &#34;value&#34;: &#34;${log}&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          &#34;short&#34;: false
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        }
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      ]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    }
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  ]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>}
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>_EOT_</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## post to slack</span>
+</span></span><span style=display:flex><span>curl -s --data-urlencode payload@.slack_payload <span style=color:#e6db74>${</span>SLACK_ENDPOINT<span style=color:#e6db74>}</span>
+</span></span><span style=display:flex><span>rm .slack_payload
+</span></span></code></pre></div><p>変更したのは1点で、corbetura formatとは別にhtml formatも出力するようにしておいて、circleciのattachmentにlinkを追加している。
+今まではsimplecov というgemを使ってcircleciでartifactとしてuploadするのみだったので、実際にgithubで開発をしていると、</p><ol><li>github pushするとintegrationによりcircleci buildが実行される</li><li>build完了時、PRにその結果が通知される</li><li>通知されたpostからcircleciのリンクをたどり該当のbuild結果からartifactのタブを選択</li><li>該当のhtmlをクリック</li></ol><p>という手順が必要で、何が言いたいかというとcoverageの詳細を確認する手順が多かった。</p><p>少しでもアクセスしにくいと感じると人間は低きに流れるのでチェックする習慣は無くなってしまうと思う。</p><p>のでpercentage of coverageをpostしcoverageを意識させつつ詳細を見やすくした、というのが今回の対応です。</p><p>尚このためにsimplecovの設定としてはMultiFormatterを使っていて</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rb data-lang=rb><span style=display:flex><span>require <span style=color:#e6db74>&#39;simplecov&#39;</span>
+</span></span><span style=display:flex><span>require <span style=color:#e6db74>&#39;simplecov-cobertura&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SimpleCov</span><span style=color:#f92672>.</span>formatters <span style=color:#f92672>=</span> <span style=color:#66d9ef>SimpleCov</span><span style=color:#f92672>::</span><span style=color:#66d9ef>Formatter</span><span style=color:#f92672>::</span><span style=color:#66d9ef>MultiFormatter</span><span style=color:#f92672>.</span>new(
+</span></span><span style=display:flex><span>  <span style=color:#f92672>[</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SimpleCov</span><span style=color:#f92672>::</span><span style=color:#66d9ef>Formatter</span><span style=color:#f92672>::</span><span style=color:#66d9ef>HTMLFormatter</span>,
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SimpleCov</span><span style=color:#f92672>::</span><span style=color:#66d9ef>Formatter</span><span style=color:#f92672>::</span><span style=color:#66d9ef>CoberturaFormatter</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>)
+</span></span></code></pre></div><p>によってcorbeturaとhtmlを <code>coverage/</code> に出力している。</p></article></div></div></div></div></div></div></main></div><script>window.onload=function(){const e=document.getElementById("post-header"),t=e.offsetHeight;document.documentElement.style.scrollPaddingTop=t+10+"px"};const tocToggleButton=document.getElementById("toc-toggle"),tippyInstance=tippy("#toc-toggle",{trigger:"click",content:'<div id="table-of-contents"><nav id="TableOfContents"></nav></div>',allowHTML:!0,placement:"bottom-start",interactive:!0,arrow:!1,maxWidth:"none",onHide:function(){tocToggleButton.classList.remove("hover")},onShow:function(){tocToggleButton.classList.add("hover")},onShown:function(){if(selectTableOfContentsOption(),window.hasSetupTableOfContentsListeners)return;const e=document.getElementById("table-of-contents");e.addEventListener("click",function(){tippyInstance[0].hide()}),window.hasSetupTableOfContentsListeners=!0}});function selectTableOfContentsOption(){const e="table-of-contents-option-selected",t=document.querySelectorAll("#table-of-contents > nav > ul li");for(const s of t){const[n]=s.children;if(n.tagName.toLowerCase()!=="a")continue;window.location.href===n.href?n.classList.add(e):n.classList.remove(e)}}window.onhashchange=selectTableOfContentsOption</script><div class="footer container-xl width-full p-responsive"><div class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light"><a aria-label=Homepage title=GitHub class="footer-octicon d-none d-lg-block mr-lg-4" href=https://blog.reizist.com/><svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" width="24"><path fill-rule="evenodd" d="M8 0C3.58.0.0 3.58.0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38.0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95.0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12.0.0.67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15.0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48.0 1.07-.01 1.93-.01 2.2.0.21.15.46.55.38A8.013 8.013.0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a><ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0"><li class="mr-3 mr-lg-0">Theme by <a href=https://github.com/MeiK2333/github-style>github-style</a></li></ul></div><div class="d-flex flex-justify-center pb-6"><span class="f6 text-gray-light"></span></div></div></body><script type=application/javascript src=https://blog.reizist.com/js/github-style.js></script></html>
