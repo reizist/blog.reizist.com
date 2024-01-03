@@ -16,7 +16,7 @@ googleAnalytics = "G-9SW1WXQHM8"
   description = "reizist's daily memo"
   avatar = "https://blog.reizist.com/images/avatar.png"
 
-  uthor = "reizist"
+  author = "reizist"
   github = "reizist"
   instagram = "reizist7"
   rss = true
